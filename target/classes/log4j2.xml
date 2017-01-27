@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Properties>
+		<Property name="log-path">E:\work\ELASTIC\elasticsearchRelated\elasticsearchJavaApiLogs
+		</Property>
+		<Property name="logFileName">ElasticJavaApi.log</Property>
+	</Properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		<RollingFile name="RollingFile" fileName="${log-path}/${logFileName}"
+			filePattern="${log-path}/${logFileName}_%d{yyyy-MM-dd}_%i">
+			<!-- <PatternLayout> <pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</pattern> 
+				</PatternLayout> -->
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB" />
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="false" />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${log-path}" maxDepth="1">
+					<IfLastModified age="1M" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Logger name="com.mevenk" level="trace">
+			<AppenderRef ref="RollingFile" />
+		</Logger>
+		<Root level="error">
+			<AppenderRef ref="RollingFile" />
+		</Root>
+	</Loggers>
+</Configuration>
