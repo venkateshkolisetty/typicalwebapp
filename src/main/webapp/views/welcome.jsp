@@ -9,7 +9,7 @@
 <body>
 	${greeting}
 	<br/>
-	<a id="fileUploadPageLink" href="fileUploadPage" >File Upload Page !!</a>
+	<a id="fileActionsPageLink" href="fileActions/fileActionsPage" >File Upload Page !!</a>
 	
 </body>
 </html>
