@@ -38,6 +38,26 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+
+			<!-- JRebel Plugin -->
+
+			<!-- <plugin>
+				<groupId>org.zeroturnaround</groupId>
+				<artifactId>jrebel-maven-plugin</artifactId>
+				<version>1.1.7</version>
+				<executions>
+					<execution>
+						<id>generate-rebel-xml</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> -->
+
+			<!-- JRebel Plugin -->
+
 		</plugins>
 	</build>
 

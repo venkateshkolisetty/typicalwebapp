@@ -64,4 +64,23 @@ public class TypicalWebAppController {
 
 	}
 
+	@RequestMapping(value = "sleepRequest", method = RequestMethod.GET)
+	public @ResponseBody String sleepRequest(ModelMap modelMap, HttpServletRequest httpServletRequest,
+			@RequestParam(name = "sleepTimeInSeconds") int sleepTimeInSeconds) {
+		Date requestReceivedDate = new Date();
+		
+		clientUtilService.logClientDetails(httpServletRequest);
+		clientUtilService.logRequestDetails(httpServletRequest);
+
+		try {
+			Thread.sleep(sleepTimeInSeconds * 1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "ERROR";
+		}
+
+		return "Received : " + requestReceivedDate + " :: Responded : " + new Date();
+	}
+
 }

@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-import org.apache.catalina.servlets.DefaultServlet;
+//import org.apache.catalina.servlets.DefaultServlet;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -28,7 +28,7 @@ public class TypicalWebAppInitializer extends AbstractAnnotationConfigDispatcher
 		dispatcherDynamicServlet.setAsyncSupported(true);
 		dispatcherDynamicServlet.setLoadOnStartup(1);
 
-		ServletRegistration.Dynamic defaultServlet = servletContext.addServlet("default",
+		/*ServletRegistration.Dynamic defaultServlet = servletContext.addServlet("default",
 				new DefaultServlet());
 		
 		defaultServlet.addMapping("*.js");
@@ -38,7 +38,7 @@ public class TypicalWebAppInitializer extends AbstractAnnotationConfigDispatcher
 		defaultServlet.addMapping("*.gif");
 		defaultServlet.addMapping("*.woff");
 		defaultServlet.addMapping("*.woff2");
-		defaultServlet.addMapping("*.ttf");
+		defaultServlet.addMapping("*.ttf");*/
 		
 	}
 
