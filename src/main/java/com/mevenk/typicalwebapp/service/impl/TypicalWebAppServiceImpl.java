@@ -9,11 +9,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mevenk.typicalwebapp.service.TypicalWebAppService;
 import com.mevenk.typicalwebapp.util.TypicalWebAppConstants;
+import com.mevenk.typicalwebapp.util.TypicalWebAppUtil;
 
 /**
  * @author VENKATESH
@@ -22,7 +25,13 @@ import com.mevenk.typicalwebapp.util.TypicalWebAppConstants;
 @Component
 public class TypicalWebAppServiceImpl implements TypicalWebAppService {
 
-	String filesDirPath = "E:\\work\\temporary\\typicalwebappUploadedFiles" + TypicalWebAppConstants.fileSeparator;
+	private static final Logger log = LogManager.getLogger(TypicalWebAppServiceImpl.class);
+
+	private static final String LINE_SEPARATOR = TypicalWebAppConstants.lineSeparator;
+	private static final String FILE_SEPARATOR = TypicalWebAppConstants.fileSeparator;
+
+	String filesDirPathFromSystemProperty = System.getProperty("typicalwebappUploadedFilesDirPath");
+	String filesDirPath = filesDirPathFromSystemProperty + FILE_SEPARATOR;
 
 	@Override
 	public FileUploadStatus uploadFile(MultipartFile uploadedFile) {
@@ -31,7 +40,7 @@ public class TypicalWebAppServiceImpl implements TypicalWebAppService {
 		try {
 
 			String originalFilename = uploadedFile.getOriginalFilename();
-			System.out.println("Rreceived File" + TypicalWebAppConstants.tabSpaceWithDoubleColun + originalFilename);
+			log.info("Received File" + TypicalWebAppConstants.tabSpaceWithDoubleColun + originalFilename);
 			byte[] fileInBytes = uploadedFile.getBytes();
 
 			// Path path = Paths.get(filesDirPath + originalFilename);
@@ -40,7 +49,7 @@ public class TypicalWebAppServiceImpl implements TypicalWebAppService {
 			File destinationFile = new File(filesDirPath + originalFilename);
 
 			if (destinationFile.exists()) {
-				System.out.println("Existing File deleted ? " + destinationFile.delete());
+				log.debug("Existing File deleted ? " + destinationFile.delete());
 			}
 
 			BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(destinationFile));
@@ -57,11 +66,10 @@ public class TypicalWebAppServiceImpl implements TypicalWebAppService {
 
 		} catch (IOException exception) {
 			fileUploadStatus = FileUploadStatus.FAIl;
-			exception.printStackTrace();
+			log.fatal(TypicalWebAppUtil.exceptionStactTraceAsString(exception));
 		}
 
-		System.out.println(
-				"Uploaded File Status" + TypicalWebAppConstants.tabSpaceWithDoubleColun + fileUploadStatus.toString());
+		log.info("Uploaded File Status" + TypicalWebAppConstants.tabSpaceWithDoubleColun + fileUploadStatus.toString());
 
 		return fileUploadStatus;
 
@@ -81,18 +89,25 @@ public class TypicalWebAppServiceImpl implements TypicalWebAppService {
 
 			File filetoconverttobytes = new File(filesDirPath + fileNameToBeDownloaded);
 
-			System.out.println(filetoconverttobytes.getAbsolutePath() + " Exists ? " + filetoconverttobytes.exists());
+			boolean fileExists = filetoconverttobytes.exists();
+			log.debug(filetoconverttobytes.getAbsolutePath() + " Exists ? " + fileExists);
 
-			fileDataInBytes = new byte[(int) filetoconverttobytes.length()];
-			fileinputstream = new FileInputStream(filetoconverttobytes);
-			fileinputstream.read(fileDataInBytes);
-			fileinputstream.close();
+			if (fileExists) {
+
+				fileDataInBytes = new byte[(int) filetoconverttobytes.length()];
+				fileinputstream = new FileInputStream(filetoconverttobytes);
+				fileinputstream.read(fileDataInBytes);
+				fileinputstream.close();
+			} else {
+				log.error("File not available!");
+				log.fatal(filetoconverttobytes + " not available !!");
+			}
 
 			Object[] returnObject = { fileDataInBytes, fileName };
 			return returnObject;
 
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			log.fatal(TypicalWebAppUtil.exceptionStactTraceAsString(exception));
 			return null;
 		}
 	}

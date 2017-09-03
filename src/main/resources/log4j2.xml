@@ -1,37 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
 	<Properties>
-		<Property name="log-path">E:\work\ELASTIC\elasticsearchRelated\elasticsearchJavaApiLogs
+
+		<Property name="typicalWebappLog4jSocketHost">${sys:typicalWebappLog4jSocketHost}</Property>
+		<Property name="typicalWebappLog4jSocketPort">${sys:typicalWebappLog4jSocketPort}</Property>
+
+		<Property name="typicalWebappLogsDir">${sys:typicalWebappLogsDirectoryLoaction}
 		</Property>
-		<Property name="logFileName">ElasticJavaApi.log</Property>
+
+		<Property name="utilLogFilesDir">${typicalWebappLogsDir}/utilLogs
+		</Property>
+		<Property name="utilLogFileName">TypicalWebappUtil.log</Property>
+
+		<Property name="appLogFilesDir">${typicalWebappLogsDir}/appLogs
+		</Property>
+		<Property name="appLogFileName">TypicalWebappApp.log</Property>
+
+		<Property name="errorLogFilesDir">${typicalWebappLogsDir}/errorLogs
+		</Property>
+		<Property name="errorLogFileName">TypicalWebappError.log</Property>
+
+		<Property name="htmlLogFilesDir">${typicalWebappLogsDir}/htmlLogs
+		</Property>
+		<Property name="htmlLogFileName">TypicalWebappLog.html</Property>
+
+		<Property name="springLogFilesDir">${typicalWebappLogsDir}/springLogs
+		</Property>
+		<Property name="springDebugLogFileName">SpringDebugLog.log</Property>
+		<Property name="springErrorLogFileName">SpringErrorLog.log</Property>
+
+		<Property name="typicalWebappLogPatternLayout"><![CDATA[%d{HH:mm:ss.SSS} #TypicalWebApp# [%X{TypicalWebAppCorrelationId}] - [%t] %-5level %logger{36} - %msg%n]]></Property>
+
 	</Properties>
+
 	<Appenders>
-		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
-		</Console>
-		<RollingFile name="RollingFile" fileName="${log-path}/${logFileName}"
-			filePattern="${log-path}/${logFileName}_%d{yyyy-MM-dd}_%i">
-			<!-- <PatternLayout> <pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</pattern> 
-				</PatternLayout> -->
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+
+		<!-- appLogRollingFile -->
+		<RollingFile name="appLogRollingFile" fileName="${appLogFilesDir}/${appLogFileName}"
+			filePattern="${appLogFilesDir}/${appLogFileName}_%d{yyyy-MM-dd}_%i">
+			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
+
+			<Filters>
+				<ThresholdFilter level="FATAL" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+			</Filters>
+
 			<Policies>
 				<SizeBasedTriggeringPolicy size="100 MB" />
 				<TimeBasedTriggeringPolicy interval="1"
 					modulate="false" />
 			</Policies>
 			<DefaultRolloverStrategy>
-				<Delete basePath="${log-path}" maxDepth="1">
+				<Delete basePath="${appLogFilesDir}" maxDepth="1">
 					<IfLastModified age="1M" />
 				</Delete>
 			</DefaultRolloverStrategy>
 		</RollingFile>
+
+		<!-- utilLogRollingFile -->
+		<RollingFile name="utilLogRollingFile" fileName="${utilLogFilesDir}/${utilLogFileName}"
+			filePattern="${utilLogFilesDir}/${utilLogFileName}_%d{yyyy-MM-dd}_%i">
+			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
+
+			<Filters>
+				<ThresholdFilter level="WARN" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="FATAL" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+			</Filters>
+
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB" />
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="false" />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${utilLogFilesDir}" maxDepth="1">
+					<IfLastModified age="1M" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+
+		<!-- errorLogRollingFile -->
+		<RollingFile name="errorLogRollingFile"
+			fileName="${errorLogFilesDir}/${errorLogFileName}" filePattern="${errorLogFilesDir}/${errorLogFileName}_%d{yyyy-MM-dd}_%i">
+			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB" />
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="false" />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${errorLogFilesDir}" maxDepth="1">
+					<IfLastModified age="1M" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+
+		<!-- htmlLogRollingFile -->
+		<RollingFile name="htmlLogRollingFile" fileName="${htmlLogFilesDir}/${htmlLogFileName}"
+			filePattern="${htmlLogFilesDir}/${htmlLogFileName}_%d{yyyy-MM-dd}_%i">
+
+			<Filters>
+				<ThresholdFilter level="WARN" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="FATAL" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+			</Filters>
+
+			<HTMLLayout charset="UTF-8" title="Typicalwebapp Logs"
+				locationInfo="false" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB" />
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="false" />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${htmlLogFilesDir}" maxDepth="1">
+					<IfLastModified age="1M" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+
+		<!-- springDebugRollingFile -->
+		<RollingFile name="springDebugRollingFile"
+			fileName="${springLogFilesDir}/${springDebugLogFileName}"
+			filePattern="${springLogFilesDir}/${springDebugLogFileName}_%d{yyyy-MM-dd}_%i">
+			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB" />
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="false" />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${springLogFilesDir}" maxDepth="1">
+					<IfLastModified age="1M" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+
+		<!-- springErrorRollingFile -->
+		<RollingFile name="springErrorRollingFile"
+			fileName="${springLogFilesDir}/${springErrorLogFileName}"
+			filePattern="${springLogFilesDir}/${springErrorLogFileName}_%d{yyyy-MM-dd}_%i">
+			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB" />
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="false" />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${springLogFilesDir}" maxDepth="1">
+					<IfLastModified age="1M" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+
+		<!-- Console -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
+		</Console>
+
+		<!-- Socket -->
+		<Socket name="Socket" host="${typicalWebappLog4jSocketHost}"
+			port="${typicalWebappLog4jSocketPort}">
+			<SerializedLayout />
+		</Socket>
+
 	</Appenders>
+
 	<Loggers>
-		<Logger name="com.mevenk" level="trace">
-			<AppenderRef ref="RollingFile" />
+
+		<Logger name="com.mevenk.typicalwebapp" level="TRACE"
+			additivity="false">
+			<AppenderRef ref="utilLogRollingFile" level="TRACE" />
+			<AppenderRef ref="appLogRollingFile" level="INFO" />
+			<AppenderRef ref="errorLogRollingFile" level="ERROR" />
+			<AppenderRef ref="htmlLogRollingFile" level="INFO" />
 		</Logger>
-		<Root level="error">
-			<AppenderRef ref="RollingFile" />
+
+		<Logger name="com.mevenk.typicalwebapp.controller" level="TRACE"
+			additivity="false">
+			<AppenderRef ref="utilLogRollingFile" level="TRACE" />
+			<!-- <AppenderRef ref="utilLogRollingFile" level="DEBUG" /> -->
+			<AppenderRef ref="appLogRollingFile" level="INFO" />
+			<AppenderRef ref="errorLogRollingFile" level="ERROR" />
+			<AppenderRef ref="htmlLogRollingFile" level="INFO" />
+		</Logger>
+
+		<Logger name="org.springframework" level="ALL" additivity="false">
+			<AppenderRef ref="springDebugRollingFile" level="DEBUG" />
+			<AppenderRef ref="springErrorRollingFile" level="ERROR" />
+		</Logger>
+
+		<Root level="ALL">
+			<AppenderRef ref="Console" />
 		</Root>
+
 	</Loggers>
+
 </Configuration>
