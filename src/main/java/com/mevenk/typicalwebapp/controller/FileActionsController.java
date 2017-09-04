@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mevenk.typicalwebapp.exception.DownloadFileNotFoundException;
 import com.mevenk.typicalwebapp.service.ClientUtilService;
 import com.mevenk.typicalwebapp.service.TypicalWebAppService;
 import com.mevenk.typicalwebapp.service.TypicalWebAppService.FileUploadStatus;
@@ -50,7 +51,13 @@ public class FileActionsController {
 	@RequestMapping(value = "fileActionsPage", method = RequestMethod.GET)
 	public String fileActionsPage(ModelMap modelMap, HttpServletRequest httpServletRequest) {
 
-		ThreadContext.put("TypicalWebAppCorrelationId", "fileActionsPage#" + httpServletRequest.getSession().getId());
+		String sessionId = httpServletRequest.getSession().getId();
+
+		ThreadContext.put("TypicalWebAppCorrelationId", "fileActionsPage#" + sessionId);
+
+		log.trace("Session Id : " + sessionId);
+
+		sessionId = null;
 
 		log.debug(LINE_SEPARATOR + "Page called at : " + new Date() + TypicalWebAppConstants.tabSpaceWithDoubleColun
 				+ httpServletRequest.getRequestURL() + LINE_SEPARATOR);
@@ -77,6 +84,7 @@ public class FileActionsController {
 		FileUploadStatus fileUploadStatus = null;
 
 		try {
+			log.info("Received File Name : " + uploadedFile.getOriginalFilename());
 
 			fileUploadStatus = typicalWebAppService.uploadFile(uploadedFile);
 
@@ -115,8 +123,8 @@ public class FileActionsController {
 			fileName = (String) dataObject[1];
 
 			if (selectedfiledatainbytes == null) {
-				log.error("Error!! - Bytes received NULL");
-				throw new Exception();
+				log.fatal("Bytes received NULL");
+				throw new DownloadFileNotFoundException(fileToBeDownloaded + " - File Not Found");
 			}
 
 			httpServletResponse.reset();
@@ -137,7 +145,9 @@ public class FileActionsController {
 		} catch (Exception exception) {
 			log.fatal(TypicalWebAppUtil.exceptionStactTraceAsString(exception));
 			try {
-				httpServletResponse.sendError(404, fileToBeDownloaded + " - File Not Found");
+				String sendErrorMessage = exception instanceof DownloadFileNotFoundException ? exception.getMessage()
+						: "Error Downloading File!";
+				httpServletResponse.sendError(404, sendErrorMessage);
 			} catch (Exception exceptionResponse) {
 				log.error("Response sending Error!!");
 				log.fatal(TypicalWebAppUtil.exceptionStactTraceAsString(exceptionResponse));

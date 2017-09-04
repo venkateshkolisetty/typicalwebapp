@@ -41,7 +41,13 @@ public class TypicalWebAppController {
 	public String applicationStartup(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) {
 
-		ThreadContext.put("TypicalWebAppCorrelationId", "*#" + httpServletRequest.getSession().getId());
+		String sessionId = httpServletRequest.getSession().getId();
+
+		ThreadContext.put("TypicalWebAppCorrelationId", "*#" + sessionId);
+
+		log.trace("Session Id : " + sessionId);
+
+		sessionId = null;
 
 		log.debug(LINE_SEPARATOR + "Application loaded at : " + new Date()
 				+ TypicalWebAppConstants.tabSpaceWithDoubleColun + httpServletRequest.getRequestURL() + LINE_SEPARATOR);
@@ -90,9 +96,10 @@ public class TypicalWebAppController {
 	public @ResponseBody String sleepRequest(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "sleepTimeInSeconds") int sleepTimeInSeconds) {
 
-		ThreadContext.put("TypicalWebAppCorrelationId", "sleepRequest#" + sleepTimeInSeconds);
-
 		Date requestReceivedDate = new Date();
+
+		ThreadContext.put("TypicalWebAppCorrelationId",
+				"sleepRequest#" + sleepTimeInSeconds + TypicalWebAppUtil.dateForCorrelationId(requestReceivedDate));
 
 		log.info("Sleep Request -> Time : " + sleepTimeInSeconds + " Request Received : " + requestReceivedDate
 				+ TypicalWebAppUtil.dateForCorrelationId(new Date()));

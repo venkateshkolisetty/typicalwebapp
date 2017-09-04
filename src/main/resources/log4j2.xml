@@ -29,7 +29,7 @@
 		<Property name="springDebugLogFileName">SpringDebugLog.log</Property>
 		<Property name="springErrorLogFileName">SpringErrorLog.log</Property>
 
-		<Property name="typicalWebappLogPatternLayout"><![CDATA[%d{HH:mm:ss.SSS} #TypicalWebApp# [%X{TypicalWebAppCorrelationId}] - [%t] %-5level %logger{36} - %msg%n]]></Property>
+		<Property name="typicalWebappLogPatternLayout"><![CDATA[%d{dd-MM-yyyy HH:mm:ss.SSS} #TypicalWebApp# [%X{TypicalWebAppCorrelationId}] - [%t] %-5level %logger{36} - %msg%n]]></Property>
 
 	</Properties>
 
@@ -63,8 +63,6 @@
 			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
 
 			<Filters>
-				<ThresholdFilter level="WARN" onMatch="DENY"
-					onMismatch="NEUTRAL" />
 				<ThresholdFilter level="FATAL" onMatch="DENY"
 					onMismatch="NEUTRAL" />
 			</Filters>
@@ -102,9 +100,17 @@
 			filePattern="${htmlLogFilesDir}/${htmlLogFileName}_%d{yyyy-MM-dd}_%i">
 
 			<Filters>
+				<ThresholdFilter level="FATAL" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="ERROR" onMatch="ACCEPT"
+					onMismatch="NEUTRAL" />
 				<ThresholdFilter level="WARN" onMatch="DENY"
 					onMismatch="NEUTRAL" />
-				<ThresholdFilter level="FATAL" onMatch="DENY"
+				<ThresholdFilter level="INFO" onMatch="ACCEPT"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="TRACE" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="ALL" onMatch="DENY"
 					onMismatch="NEUTRAL" />
 			</Filters>
 
@@ -126,6 +132,12 @@
 		<RollingFile name="springDebugRollingFile"
 			fileName="${springLogFilesDir}/${springDebugLogFileName}"
 			filePattern="${springLogFilesDir}/${springDebugLogFileName}_%d{yyyy-MM-dd}_%i">
+
+			<Filters>
+				<ThresholdFilter level="FATAL" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+			</Filters>
+
 			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="100 MB" />
@@ -143,6 +155,18 @@
 		<RollingFile name="springErrorRollingFile"
 			fileName="${springLogFilesDir}/${springErrorLogFileName}"
 			filePattern="${springLogFilesDir}/${springErrorLogFileName}_%d{yyyy-MM-dd}_%i">
+
+			<Filters>
+				<ThresholdFilter level="ALL" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="TRACE" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="INFO" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="WARN" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+			</Filters>
+
 			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="100 MB" />
@@ -171,24 +195,35 @@
 
 	<Loggers>
 
+		<!-- utilLogRollingFile should be added to all child loggers -->
+
 		<Logger name="com.mevenk.typicalwebapp" level="TRACE"
 			additivity="false">
-			<AppenderRef ref="utilLogRollingFile" level="TRACE" />
+			<!-- <AppenderRef ref="utilLogRollingFile" level="TRACE" /> -->
 			<AppenderRef ref="appLogRollingFile" level="INFO" />
 			<AppenderRef ref="errorLogRollingFile" level="ERROR" />
 			<AppenderRef ref="htmlLogRollingFile" level="INFO" />
 		</Logger>
 
-		<Logger name="com.mevenk.typicalwebapp.controller" level="TRACE"
-			additivity="false">
-			<AppenderRef ref="utilLogRollingFile" level="TRACE" />
-			<!-- <AppenderRef ref="utilLogRollingFile" level="DEBUG" /> -->
-			<AppenderRef ref="appLogRollingFile" level="INFO" />
-			<AppenderRef ref="errorLogRollingFile" level="ERROR" />
-			<AppenderRef ref="htmlLogRollingFile" level="INFO" />
+		<Logger name="com.mevenk.typicalwebapp.controller" level="TRACE">
+			<AppenderRef ref="utilLogRollingFile" level="DEBUG" />
 		</Logger>
 
-		<Logger name="org.springframework" level="ALL" additivity="false">
+		<Logger name="com.mevenk.typicalwebapp.service" level="TRACE">
+			<AppenderRef ref="utilLogRollingFile" level="DEBUG" />
+		</Logger>
+
+		<Logger name="com.mevenk.typicalwebapp.exception" level="TRACE">
+			<AppenderRef ref="utilLogRollingFile" level="TRACE" />
+		</Logger>
+
+		<!-- Independent of other loggers. -->
+		<Logger name="com.mevenk.typicalwebapp.service.impl.ClientUtilServiceimpl"
+			level="TRACE" additivity="false">
+			<AppenderRef ref="utilLogRollingFile" level="TRACE" />
+		</Logger>
+
+		<Logger name="org.springframework.web.servlet.mvc" level="TRACE">
 			<AppenderRef ref="springDebugRollingFile" level="DEBUG" />
 			<AppenderRef ref="springErrorRollingFile" level="ERROR" />
 		</Logger>
