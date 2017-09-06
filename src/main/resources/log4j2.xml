@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<!-- <!DOCTYPE Configuration SYSTEM "log4j.dtd"> -->
+<Configuration>
 	<Properties>
 
 		<Property name="typicalWebappLog4jSocketHost">${sys:typicalWebappLog4jSocketHost}</Property>
@@ -26,10 +27,9 @@
 
 		<Property name="springLogFilesDir">${typicalWebappLogsDir}/springLogs
 		</Property>
-		<Property name="springDebugLogFileName">SpringDebugLog.log</Property>
-		<Property name="springErrorLogFileName">SpringErrorLog.log</Property>
+		<Property name="springLogFileName">SpringLog.log</Property>
 
-		<Property name="typicalWebappLogPatternLayout"><![CDATA[%d{dd-MM-yyyy HH:mm:ss.SSS} #TypicalWebApp# [%X{TypicalWebAppCorrelationId}] - [%t] %-5level %logger{36} - %msg%n]]></Property>
+		<Property name="typicalWebappLogPatternLayout"><![CDATA[%d{MMM dd, yyyy HH:mm:ss.SSS} #TypicalWebApp# [%X{TypicalWebAppCorrelationId}] - [%t] %-5level %logger{36} - %msg%n]]></Property>
 
 	</Properties>
 
@@ -128,42 +128,13 @@
 			</DefaultRolloverStrategy>
 		</RollingFile>
 
-		<!-- springDebugRollingFile -->
-		<RollingFile name="springDebugRollingFile"
-			fileName="${springLogFilesDir}/${springDebugLogFileName}"
-			filePattern="${springLogFilesDir}/${springDebugLogFileName}_%d{yyyy-MM-dd}_%i">
+		<!-- springLogRollingFile -->
+		<RollingFile name="springLogRollingFile"
+			fileName="${springLogFilesDir}/${springLogFileName}"
+			filePattern="${springLogFilesDir}/${springLogFileName}_%d{yyyy-MM-dd}_%i">
 
 			<Filters>
 				<ThresholdFilter level="FATAL" onMatch="DENY"
-					onMismatch="NEUTRAL" />
-			</Filters>
-
-			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
-			<Policies>
-				<SizeBasedTriggeringPolicy size="100 MB" />
-				<TimeBasedTriggeringPolicy interval="1"
-					modulate="false" />
-			</Policies>
-			<DefaultRolloverStrategy>
-				<Delete basePath="${springLogFilesDir}" maxDepth="1">
-					<IfLastModified age="1M" />
-				</Delete>
-			</DefaultRolloverStrategy>
-		</RollingFile>
-
-		<!-- springErrorRollingFile -->
-		<RollingFile name="springErrorRollingFile"
-			fileName="${springLogFilesDir}/${springErrorLogFileName}"
-			filePattern="${springLogFilesDir}/${springErrorLogFileName}_%d{yyyy-MM-dd}_%i">
-
-			<Filters>
-				<ThresholdFilter level="ALL" onMatch="DENY"
-					onMismatch="NEUTRAL" />
-				<ThresholdFilter level="TRACE" onMatch="DENY"
-					onMismatch="NEUTRAL" />
-				<ThresholdFilter level="INFO" onMatch="DENY"
-					onMismatch="NEUTRAL" />
-				<ThresholdFilter level="WARN" onMatch="DENY"
 					onMismatch="NEUTRAL" />
 			</Filters>
 
@@ -223,9 +194,8 @@
 			<AppenderRef ref="utilLogRollingFile" level="TRACE" />
 		</Logger>
 
-		<Logger name="org.springframework.web.servlet.mvc" level="TRACE">
-			<AppenderRef ref="springDebugRollingFile" level="DEBUG" />
-			<AppenderRef ref="springErrorRollingFile" level="ERROR" />
+		<Logger name="org.springframework" level="TRACE">
+			<AppenderRef ref="springLogRollingFile" level="DEBUG" />
 		</Logger>
 
 		<Root level="ALL">
