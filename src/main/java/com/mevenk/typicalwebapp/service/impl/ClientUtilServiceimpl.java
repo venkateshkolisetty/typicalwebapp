@@ -11,8 +11,10 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+/*import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;*/
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.mevenk.typicalwebapp.service.ClientUtilService;
@@ -27,7 +29,8 @@ import eu.bitwalker.useragentutils.UserAgent;
 @Component
 public class ClientUtilServiceimpl implements ClientUtilService {
 
-	private static final Logger log = LogManager.getLogger(ClientUtilServiceimpl.class);
+	//private static final Logger log = LogManager.getLogger(ClientUtilServiceimpl.class);
+	private static final Logger log = LoggerFactory.getLogger(ClientUtilServiceimpl.class);
 
 	private static final String LINE_SEPARATOR = TypicalWebAppConstants.lineSeparator;
 
@@ -37,8 +40,10 @@ public class ClientUtilServiceimpl implements ClientUtilService {
 	@Override
 	public void logRequestDetails(HttpServletRequest httpServletRequest) {
 
-		log.trace(httpServletRequest.getRequestURL() + TypicalWebAppConstants.tabSpaceWithSingleColun
-				+ httpServletRequest.getMethod() + TypicalWebAppConstants.tabSpaceWithDoubleColun + new Date());
+		/*log.trace(httpServletRequest.getRequestURL() + TypicalWebAppConstants.tabSpaceWithSingleColun
+				+ httpServletRequest.getMethod() + TypicalWebAppConstants.tabSpaceWithDoubleColun + new Date());*/
+		log.trace("{}{}{}{}{}", httpServletRequest.getRequestURL(), TypicalWebAppConstants.tabSpaceWithSingleColun,
+				httpServletRequest.getMethod(), TypicalWebAppConstants.tabSpaceWithDoubleColun, new Date());
 
 		Map<String, String[]> requestParameterMap = httpServletRequest.getParameterMap();
 		if (requestParameterMap.size() > 0) {
@@ -51,7 +56,8 @@ public class ClientUtilServiceimpl implements ClientUtilService {
 						+ Arrays.toString(currentEntry.getValue()).replaceAll("^\\[|\\]$", "") + LINE_SEPARATOR);
 			}
 
-			log.trace("Request Parameters" + LINE_SEPARATOR + requestParametersStringBuffer.toString());
+			//log.trace("Request Parameters" + LINE_SEPARATOR + requestParametersStringBuffer.toString());
+			log.trace("Request Parameters{}{}", LINE_SEPARATOR, requestParametersStringBuffer.toString());
 
 		}
 	}
@@ -64,9 +70,12 @@ public class ClientUtilServiceimpl implements ClientUtilService {
 
 		UserAgent userAgent = UserAgent.parseUserAgentString(httpServletRequest.getHeader("User-Agent"));
 
-		log.trace("Client" + TypicalWebAppConstants.tabSpaceWithDoubleColun + httpServletRequest.getRemoteHost()
+		/*log.trace("Client" + TypicalWebAppConstants.tabSpaceWithDoubleColun + httpServletRequest.getRemoteHost()
 				+ TypicalWebAppConstants.tabSpaceWithDoubleColun + userAgent.getId()
-				+ TypicalWebAppConstants.tabSpaceWithDoubleColun + userAgent.toString());
+				+ TypicalWebAppConstants.tabSpaceWithDoubleColun + userAgent.toString());*/
+		log.trace("Client{}{}{}{}{}{}", TypicalWebAppConstants.tabSpaceWithDoubleColun,
+				httpServletRequest.getRemoteHost(), TypicalWebAppConstants.tabSpaceWithDoubleColun, userAgent.getId(),
+				TypicalWebAppConstants.tabSpaceWithDoubleColun, userAgent.toString());
 
 		StringBuffer clientDetailsStringBuffer = new StringBuffer();
 
@@ -78,7 +87,8 @@ public class ClientUtilServiceimpl implements ClientUtilService {
 					.append(paramName + TypicalWebAppConstants.tabSpaceWithDoubleColun + paramValue + LINE_SEPARATOR);
 		}
 
-		log.trace("Client Details from Headers..." + LINE_SEPARATOR + clientDetailsStringBuffer.toString());
+		//log.trace("Client Details from Headers..." + LINE_SEPARATOR + clientDetailsStringBuffer.toString());
+		log.trace("Client Details from Headers...{}{}", LINE_SEPARATOR, clientDetailsStringBuffer.toString());
 
 	}
 

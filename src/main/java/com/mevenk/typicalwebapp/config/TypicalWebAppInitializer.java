@@ -4,33 +4,31 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-//import org.apache.catalina.servlets.DefaultServlet;
+import org.apache.catalina.servlets.DefaultServlet;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-
 public class TypicalWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	public void onStartup(ServletContext servletContext) throws ServletException {
 
-		WebApplicationContext webApplicationContext = getContext();
+		WebApplicationContext webApplicationRootContext = getRootContext();
+		WebApplicationContext webApplicationDispatcherContext = getDispatcherContext();
 
-		servletContext.addListener(new ContextLoaderListener(webApplicationContext));
+		servletContext.addListener(new ContextLoaderListener(webApplicationRootContext));
 
 		ServletRegistration.Dynamic dispatcherDynamicServlet = servletContext.addServlet("DispatcherServlet",
-				new DispatcherServlet(webApplicationContext));
+				new DispatcherServlet(webApplicationDispatcherContext));
 
-		dispatcherDynamicServlet.setLoadOnStartup(1);
 		dispatcherDynamicServlet.addMapping("/");
 		dispatcherDynamicServlet.setAsyncSupported(true);
 		dispatcherDynamicServlet.setLoadOnStartup(1);
 
-		/*ServletRegistration.Dynamic defaultServlet = servletContext.addServlet("default",
-				new DefaultServlet());
-		
+		ServletRegistration.Dynamic defaultServlet = servletContext.addServlet("default", new DefaultServlet());
+
 		defaultServlet.addMapping("*.js");
 		defaultServlet.addMapping("*.css");
 		defaultServlet.addMapping("*.ico");
@@ -38,14 +36,22 @@ public class TypicalWebAppInitializer extends AbstractAnnotationConfigDispatcher
 		defaultServlet.addMapping("*.gif");
 		defaultServlet.addMapping("*.woff");
 		defaultServlet.addMapping("*.woff2");
-		defaultServlet.addMapping("*.ttf");*/
-		
+		defaultServlet.addMapping("*.ttf");
+
 	}
 
-	private AnnotationConfigWebApplicationContext getContext() {
-		AnnotationConfigWebApplicationContext annotationConfigWebApplicationContext = new AnnotationConfigWebApplicationContext();
-		annotationConfigWebApplicationContext.setConfigLocation("com.mevenk.typicalwebapp.config");
-		return annotationConfigWebApplicationContext;
+	private AnnotationConfigWebApplicationContext getRootContext() {
+		AnnotationConfigWebApplicationContext annotationConfigWebApplicationRootContext = new AnnotationConfigWebApplicationContext();
+		annotationConfigWebApplicationRootContext.setConfigLocation("com.mevenk.typicalwebapp.config");
+		annotationConfigWebApplicationRootContext.register(TypicalWebAppRootConfiguration.class);
+		return annotationConfigWebApplicationRootContext;
+	}
+
+	private AnnotationConfigWebApplicationContext getDispatcherContext() {
+		AnnotationConfigWebApplicationContext annotationConfigWebApplicationDispatcherContext = new AnnotationConfigWebApplicationContext();
+		annotationConfigWebApplicationDispatcherContext.setConfigLocation("com.mevenk.typicalwebapp.config");
+		annotationConfigWebApplicationDispatcherContext.register(TypicalWebAppServletConfiguration.class);
+		return annotationConfigWebApplicationDispatcherContext;
 	}
 
 	@Override
@@ -55,12 +61,12 @@ public class TypicalWebAppInitializer extends AbstractAnnotationConfigDispatcher
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { TypicalWebAppConfiguration.class };
+		return new Class[] { TypicalWebAppRootConfiguration.class };
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return null;
+		return new Class[] { TypicalWebAppServletConfiguration.class };
 	}
 
 }

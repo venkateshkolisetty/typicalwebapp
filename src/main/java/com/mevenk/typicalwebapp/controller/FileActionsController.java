@@ -3,6 +3,8 @@
  */
 package com.mevenk.typicalwebapp.controller;
 
+import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.THREAD_CONTEXT_KEY;
+
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
@@ -53,7 +55,7 @@ public class FileActionsController {
 
 		String sessionId = httpServletRequest.getSession().getId();
 
-		ThreadContext.put("TypicalWebAppCorrelationId", "fileActionsPage#" + sessionId);
+		ThreadContext.put(THREAD_CONTEXT_KEY, "fileActionsPage#" + sessionId);
 
 		log.trace("Session Id : " + sessionId);
 
@@ -73,7 +75,7 @@ public class FileActionsController {
 	public @ResponseBody String fileUpload(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "uploadedFile") MultipartFile uploadedFile) {
 
-		ThreadContext.put("TypicalWebAppCorrelationId", "fileUpload#" + uploadedFile.getOriginalFilename()
+		ThreadContext.put(THREAD_CONTEXT_KEY, "fileUpload#" + uploadedFile.getOriginalFilename()
 				+ TypicalWebAppUtil.dateForCorrelationId(new Date()));
 
 		log.debug(LINE_SEPARATOR + "Called at : " + new Date() + TypicalWebAppConstants.tabSpaceWithDoubleColun
@@ -102,7 +104,7 @@ public class FileActionsController {
 			HttpServletResponse httpServletResponse,
 			@RequestParam(name = "fileToBeDownloaded", required = false) String fileToBeDownloaded) {
 
-		ThreadContext.put("TypicalWebAppCorrelationId",
+		ThreadContext.put(THREAD_CONTEXT_KEY,
 				"fileDownload#" + fileToBeDownloaded + TypicalWebAppUtil.dateForCorrelationId(new Date()));
 
 		log.debug(LINE_SEPARATOR + "Called at : " + new Date() + TypicalWebAppConstants.tabSpaceWithDoubleColun
