@@ -18,15 +18,13 @@ public class DownloadFileNotFoundException extends Exception {
 	 * 
 	 */
 	public DownloadFileNotFoundException() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param message
+	 * @param fileToBeDownloaded
 	 */
-	public DownloadFileNotFoundException(String message) {
-		super(message);
-		// TODO Auto-generated constructor stub
+	public DownloadFileNotFoundException(String fileToBeDownloaded) {
+		super(fileToBeDownloaded + " - File Not Found");
 	}
 
 	/**
@@ -34,28 +32,25 @@ public class DownloadFileNotFoundException extends Exception {
 	 */
 	public DownloadFileNotFoundException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param message
+	 * @param fileToBeDownloaded
 	 * @param cause
 	 */
-	public DownloadFileNotFoundException(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
+	public DownloadFileNotFoundException(String fileToBeDownloaded, Throwable cause) {
+		super(fileToBeDownloaded, cause);
 	}
 
 	/**
-	 * @param message
+	 * @param fileToBeDownloaded
 	 * @param cause
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public DownloadFileNotFoundException(String message, Throwable cause, boolean enableSuppression,
+	public DownloadFileNotFoundException(String fileToBeDownloaded, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
+		super(fileToBeDownloaded, cause, enableSuppression, writableStackTrace);
 	}
 
 }

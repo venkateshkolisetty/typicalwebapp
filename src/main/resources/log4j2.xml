@@ -234,7 +234,11 @@
 		<Root level="ALL">
 			<AppenderRef ref="Console" />
 		</Root>
-
+		
+		<Logger name="com.mevenk.typicalwebapp.rough" level="ALL">
+			<AppenderRef ref="Console" />
+		</Logger>
+		
 	</Loggers>
 
 </Configuration>

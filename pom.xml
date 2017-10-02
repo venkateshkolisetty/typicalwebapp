@@ -11,6 +11,7 @@
 		<springframework.version>4.3.11.RELEASE</springframework.version>
 		<hibernate.version>5.1.0.Final</hibernate.version>
 		<mysql.connector.version>5.1.9</mysql.connector.version>
+		<aspectj.version>1.8.10</aspectj.version>
 	</properties>
 
 	<build>
@@ -30,7 +31,7 @@
 			</resource>
 		</resources>
 		<plugins>
-			
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -39,38 +40,28 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
-    			<groupId>org.apache.maven.plugins</groupId>
-    			<artifactId>maven-war-plugin</artifactId>
-    			<version>3.1.0</version>
-    			<configuration>
-        			<failOnMissingWebXml>false</failOnMissingWebXml>
-    			</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
 			</plugin>
-			
-			 <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.5.7.RELEASE</version>
-            </plugin>
-			
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.5.7.RELEASE</version>
+			</plugin>
+
 			<!-- JRebel Plugin -->
 
-			<!-- <plugin>
-				<groupId>org.zeroturnaround</groupId>
-				<artifactId>jrebel-maven-plugin</artifactId>
-				<version>1.1.7</version>
-				<executions>
-					<execution>
-						<id>generate-rebel-xml</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin> -->
+			<!-- <plugin> <groupId>org.zeroturnaround</groupId> <artifactId>jrebel-maven-plugin</artifactId> 
+				<version>1.1.7</version> <executions> <execution> <id>generate-rebel-xml</id> 
+				<phase>process-resources</phase> <goals> <goal>generate</goal> </goals> </execution> 
+				</executions> </plugin> -->
 
 			<!-- JRebel Plugin -->
 
@@ -95,30 +86,30 @@
 			<artifactId>log4j-core</artifactId>
 			<version>2.9.0</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-slf4j-impl</artifactId>
-		    <version>2.9.0</version>
-		    <scope>test</scope>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.9.0</version>
+			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-api</artifactId>
-		    <version>1.7.25</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-nop -->
 		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-nop</artifactId>
-		    <version>1.7.25</version>
-		    <scope>test</scope>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-nop</artifactId>
+			<version>1.7.25</version>
+			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -126,20 +117,16 @@
 			<version>4.0.0</version>
 		</dependency>
 
-		<!-- <dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.1</version>
-			<scope>provided</scope>
-		</dependency> -->
-		
+		<!-- <dependency> <groupId>javax.servlet.jsp</groupId> <artifactId>jsp-api</artifactId> 
+			<version>2.1</version> <scope>provided</scope> </dependency> -->
+
 		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
 		<dependency>
-		    <groupId>javax.servlet.jsp</groupId>
-		    <artifactId>javax.servlet.jsp-api</artifactId>
-		    <!-- <version>2.3.1</version> -->
-		    <version>2.3.2-b02</version>
-		    <scope>provided</scope>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<!-- <version>2.3.1</version> -->
+			<version>2.3.2-b02</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -157,14 +144,11 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-		<!-- <dependency>
-    		<groupId>org.springframework</groupId>
-    		<artifactId>spring-context</artifactId>
-    		<version>${springframework.version}</version>
-		</dependency> -->
-		
+		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context</artifactId> 
+			<version>${springframework.version}</version> </dependency> -->
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
@@ -176,16 +160,13 @@
 			<version>${springframework.version}</version>
 		</dependency>
 
-		<!-- <dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>jstl</groupId> <artifactId>jstl</artifactId> 
+			<version>1.2</version> </dependency> -->
 		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl-api -->
 		<dependency>
-		    <groupId>javax.servlet.jsp.jstl</groupId>
-		    <artifactId>jstl-api</artifactId>
-		    <version>1.2</version>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>jstl-api</artifactId>
+			<version>1.2</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/eu.bitwalker/UserAgentUtils -->
@@ -195,32 +176,29 @@
 			<version>1.20</version>
 		</dependency>
 
-		<!-- <dependency>
-			<groupId>commons-configuration</groupId>
-			<artifactId>commons-configuration</artifactId>
-			<version>1.10</version>
-		</dependency> -->
-		
+		<!-- <dependency> <groupId>commons-configuration</groupId> <artifactId>commons-configuration</artifactId> 
+			<version>1.10</version> </dependency> -->
+
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-configuration2 -->
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-configuration2</artifactId>
-		    <version>2.1.1</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-configuration2</artifactId>
+			<version>2.1.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.3</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
 		</dependency>
-		
-		
+
+
 		<!-- Spring logs logged to file after using this -->
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jcl -->
 		<dependency>
@@ -230,14 +208,98 @@
 		</dependency>
 
 
-	<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter</artifactId>
-		<version>1.5.7.RELEASE</version>
-	</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>1.5.7.RELEASE</version>
+		</dependency>
 
-		
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.10.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-inline -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>2.10.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.7.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.7.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-core -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-core</artifactId>
+			<version>1.7.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-reflect -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-reflect</artifactId>
+			<version>1.7.3</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-easymock -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-easymock</artifactId>
+			<version>1.7.3</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 </project>

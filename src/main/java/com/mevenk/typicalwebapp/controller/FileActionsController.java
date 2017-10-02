@@ -37,7 +37,6 @@ import com.mevenk.typicalwebapp.util.TypicalWebAppUtil;
  *
  */
 @Controller()
-@RequestMapping
 public class FileActionsController {
 
 	private static final Logger log = LogManager.getLogger(FileActionsController.class);
@@ -53,13 +52,9 @@ public class FileActionsController {
 	@RequestMapping(value = "fileActionsPage", method = RequestMethod.GET)
 	public String fileActionsPage(ModelMap modelMap, HttpServletRequest httpServletRequest) {
 
-		String sessionId = httpServletRequest.getSession().getId();
+		ThreadContext.put(THREAD_CONTEXT_KEY, "fileActionsPage#" + TypicalWebAppUtil.dateForCorrelationId(new Date()));
 
-		ThreadContext.put(THREAD_CONTEXT_KEY, "fileActionsPage#" + sessionId);
-
-		log.trace("Session Id : " + sessionId);
-
-		sessionId = null;
+		log.trace("Session Id : " + httpServletRequest.getSession().getId());
 
 		log.debug(LINE_SEPARATOR + "Page called at : " + new Date() + TypicalWebAppConstants.tabSpaceWithDoubleColun
 				+ httpServletRequest.getRequestURL() + LINE_SEPARATOR);
@@ -126,7 +121,7 @@ public class FileActionsController {
 
 			if (selectedfiledatainbytes == null) {
 				log.fatal("Bytes received NULL");
-				throw new DownloadFileNotFoundException(fileToBeDownloaded + " - File Not Found");
+				throw new DownloadFileNotFoundException(fileToBeDownloaded);
 			}
 
 			httpServletResponse.reset();

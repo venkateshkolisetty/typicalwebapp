@@ -24,11 +24,10 @@ public class TimelyDateLoggerImpl implements TimelyDateLogger {
 
 	private static final Logger log = LogManager.getLogger(TimelyDateLoggerImpl.class);
 
-	@Scheduled(cron = "${typicalwebappDatePoolingCron}")
+	@Scheduled(cron = "${datePoolingCronExpression}")
 	@Override
 	public void fixedRateDatePooling() {
 		ThreadContext.put(THREAD_CONTEXT_KEY, "FixedRateDatePooling");
-		System.out.println("Pooling date..... | The time is now " + currentDateForTimelyDateLogger());
 		log.log(POOLING, "Pooling date..... | The time is now {}", currentDateForTimelyDateLogger());
 	}
 
