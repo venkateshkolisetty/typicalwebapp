@@ -26,7 +26,7 @@ public class TypicalWebAppBeanPostProcessor implements BeanPostProcessor {
 	 */
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		log.log(CONFIG, "Initializing " + bean);
+		log.log(CONFIG, "Initializing {}", bean);
 		return bean;
 	}
 
@@ -38,7 +38,7 @@ public class TypicalWebAppBeanPostProcessor implements BeanPostProcessor {
 	 */
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		log.log(CONFIG, "Initialized " + bean);
+		log.log(CONFIG, "Initialized {}", bean);
 		return bean;
 	}
 

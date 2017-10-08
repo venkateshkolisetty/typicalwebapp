@@ -1,19 +1,17 @@
 /**
  * 
  */
-package com.mevenk.typicalwebapp.scheduler.impl;
+package com.mevenk.typicalwebapp.pooling.impl;
 
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.POOLING;
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.THREAD_CONTEXT_KEY;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.currentDateForTimelyDateLogger;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.ThreadContext;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.mevenk.typicalwebapp.scheduler.TimelyDateLogger;
+import com.mevenk.typicalwebapp.pooling.TimelyDateLogger;
 
 /**
  * @author Venkatesh
@@ -27,8 +25,7 @@ public class TimelyDateLoggerImpl implements TimelyDateLogger {
 	@Scheduled(cron = "${datePoolingCronExpression}")
 	@Override
 	public void fixedRateDatePooling() {
-		ThreadContext.put(THREAD_CONTEXT_KEY, "FixedRateDatePooling");
-		log.log(POOLING, "Pooling date..... | The time is now {}", currentDateForTimelyDateLogger());
+		log.log(POOLING, "Pooling..... | {}", currentDateForTimelyDateLogger());
 	}
 
 }

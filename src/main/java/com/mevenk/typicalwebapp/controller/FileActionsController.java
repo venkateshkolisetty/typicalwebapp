@@ -3,7 +3,7 @@
  */
 package com.mevenk.typicalwebapp.controller;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.THREAD_CONTEXT_KEY;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN;
 
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,7 +28,6 @@ import com.mevenk.typicalwebapp.exception.DownloadFileNotFoundException;
 import com.mevenk.typicalwebapp.service.ClientUtilService;
 import com.mevenk.typicalwebapp.service.TypicalWebAppService;
 import com.mevenk.typicalwebapp.service.TypicalWebAppService.FileUploadStatus;
-import com.mevenk.typicalwebapp.util.TypicalWebAppConstants;
 import com.mevenk.typicalwebapp.util.TypicalWebAppUtil;
 
 /**
@@ -41,8 +39,6 @@ public class FileActionsController {
 
 	private static final Logger log = LogManager.getLogger(FileActionsController.class);
 
-	private static final String LINE_SEPARATOR = TypicalWebAppConstants.lineSeparator;
-
 	@Autowired
 	TypicalWebAppService typicalWebAppService;
 
@@ -52,12 +48,12 @@ public class FileActionsController {
 	@RequestMapping(value = "fileActionsPage", method = RequestMethod.GET)
 	public String fileActionsPage(ModelMap modelMap, HttpServletRequest httpServletRequest) {
 
-		ThreadContext.put(THREAD_CONTEXT_KEY, "fileActionsPage#" + TypicalWebAppUtil.dateForCorrelationId(new Date()));
+		//appendCorrelationIdWithPrefix("fileActionsPage#");
 
-		log.trace("Session Id : " + httpServletRequest.getSession().getId());
+		log.trace("Session Id : {}", httpServletRequest.getSession().getId());
 
-		log.debug(LINE_SEPARATOR + "Page called at : " + new Date() + TypicalWebAppConstants.tabSpaceWithDoubleColun
-				+ httpServletRequest.getRequestURL() + LINE_SEPARATOR);
+		log.debug("Page called at : {}{}{}", new Date(), TAB_SPACE_AROUND_DOUBLE_COLUN,
+				httpServletRequest.getRequestURL());
 
 		clientUtilService.logRequestDetails(httpServletRequest);
 
@@ -70,18 +66,16 @@ public class FileActionsController {
 	public @ResponseBody String fileUpload(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "uploadedFile") MultipartFile uploadedFile) {
 
-		ThreadContext.put(THREAD_CONTEXT_KEY, "fileUpload#" + uploadedFile.getOriginalFilename()
-				+ TypicalWebAppUtil.dateForCorrelationId(new Date()));
+		//appendCorrelationIdWithPrefix("fileUpload#" + uploadedFile.getOriginalFilename());
 
-		log.debug(LINE_SEPARATOR + "Called at : " + new Date() + TypicalWebAppConstants.tabSpaceWithDoubleColun
-				+ httpServletRequest.getRequestURL() + LINE_SEPARATOR);
+		log.debug("Called at : {}{}{}", new Date(), TAB_SPACE_AROUND_DOUBLE_COLUN, httpServletRequest.getRequestURL());
 
 		clientUtilService.logRequestDetails(httpServletRequest);
 
 		FileUploadStatus fileUploadStatus = null;
 
 		try {
-			log.info("Received File Name : " + uploadedFile.getOriginalFilename());
+			log.info("Received File Name : {}", uploadedFile.getOriginalFilename());
 
 			fileUploadStatus = typicalWebAppService.uploadFile(uploadedFile);
 
@@ -99,11 +93,9 @@ public class FileActionsController {
 			HttpServletResponse httpServletResponse,
 			@RequestParam(name = "fileToBeDownloaded", required = false) String fileToBeDownloaded) {
 
-		ThreadContext.put(THREAD_CONTEXT_KEY,
-				"fileDownload#" + fileToBeDownloaded + TypicalWebAppUtil.dateForCorrelationId(new Date()));
+		//appendCorrelationIdWithPrefix("fileDownload#" + fileToBeDownloaded);
 
-		log.debug(LINE_SEPARATOR + "Called at : " + new Date() + TypicalWebAppConstants.tabSpaceWithDoubleColun
-				+ httpServletRequest.getRequestURL() + LINE_SEPARATOR);
+		log.debug("Called at : {}{}{}", new Date(), TAB_SPACE_AROUND_DOUBLE_COLUN, httpServletRequest.getRequestURL());
 
 		Object[] dataObject;
 
@@ -112,7 +104,7 @@ public class FileActionsController {
 
 		try {
 
-			log.info("Received File Name : " + fileToBeDownloaded);
+			log.info("Received File Name : {}", fileToBeDownloaded);
 
 			dataObject = typicalWebAppService.downloadFile(fileToBeDownloaded);
 

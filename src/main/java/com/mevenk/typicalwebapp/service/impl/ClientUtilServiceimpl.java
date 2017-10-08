@@ -11,10 +11,8 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-/*import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;*/
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.mevenk.typicalwebapp.config.TypicalWebAppSourceBean;
@@ -30,9 +28,9 @@ import eu.bitwalker.useragentutils.UserAgent;
 @Component
 public class ClientUtilServiceimpl extends TypicalWebAppSourceBean implements ClientUtilService {
 
-	private static final Logger log = LoggerFactory.getLogger(ClientUtilServiceimpl.class);
+	private static final Logger log = LogManager.getLogger(ClientUtilServiceimpl.class);
 
-	private static final String LINE_SEPARATOR = TypicalWebAppConstants.lineSeparator;
+	private static final String LINE_SEPARATOR = TypicalWebAppConstants.LINE_SEPARATOR;
 
 	/**
 	 * @param httpServletRequest
@@ -40,8 +38,9 @@ public class ClientUtilServiceimpl extends TypicalWebAppSourceBean implements Cl
 	@Override
 	public void logRequestDetails(HttpServletRequest httpServletRequest) {
 
-		log.trace("{}{}{}{}{}", httpServletRequest.getRequestURL(), TypicalWebAppConstants.tabSpaceWithSingleColun,
-				httpServletRequest.getMethod(), TypicalWebAppConstants.tabSpaceWithDoubleColun, new Date());
+		log.trace("{}{}{}{}{}", httpServletRequest.getRequestURL(),
+				TypicalWebAppConstants.TAB_SPACE_AROUND_SINGLE_COLUN, httpServletRequest.getMethod(),
+				TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN, new Date());
 
 		Map<String, String[]> requestParameterMap = httpServletRequest.getParameterMap();
 		if (requestParameterMap.size() > 0) {
@@ -49,8 +48,8 @@ public class ClientUtilServiceimpl extends TypicalWebAppSourceBean implements Cl
 			StringBuffer requestParametersStringBuffer = new StringBuffer();
 
 			for (Entry<String, String[]> currentEntry : requestParameterMap.entrySet()) {
-				requestParametersStringBuffer.append(TypicalWebAppConstants.tabSpace + currentEntry.getKey()
-						+ TypicalWebAppConstants.tabSpaceWithSingleColun
+				requestParametersStringBuffer.append(TypicalWebAppConstants.TAB_SPACE + currentEntry.getKey()
+						+ TypicalWebAppConstants.TAB_SPACE_AROUND_SINGLE_COLUN
 						+ Arrays.toString(currentEntry.getValue()).replaceAll("^\\[|\\]$", "") + LINE_SEPARATOR);
 			}
 
@@ -67,9 +66,9 @@ public class ClientUtilServiceimpl extends TypicalWebAppSourceBean implements Cl
 
 		UserAgent userAgent = UserAgent.parseUserAgentString(httpServletRequest.getHeader("User-Agent"));
 
-		log.trace("Client{}{}{}{}{}{}", TypicalWebAppConstants.tabSpaceWithDoubleColun,
-				httpServletRequest.getRemoteHost(), TypicalWebAppConstants.tabSpaceWithDoubleColun, userAgent.getId(),
-				TypicalWebAppConstants.tabSpaceWithDoubleColun, userAgent.toString());
+		log.trace("Client{}{}{}{}{}{}", TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN,
+				httpServletRequest.getRemoteHost(), TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN,
+				userAgent.getId(), TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN, userAgent.toString());
 
 		StringBuffer clientDetailsStringBuffer = new StringBuffer();
 
@@ -77,8 +76,8 @@ public class ClientUtilServiceimpl extends TypicalWebAppSourceBean implements Cl
 		while (headerNames.hasMoreElements()) {
 			String paramName = (String) headerNames.nextElement();
 			String paramValue = httpServletRequest.getHeader(paramName);
-			clientDetailsStringBuffer
-					.append(paramName + TypicalWebAppConstants.tabSpaceWithDoubleColun + paramValue + LINE_SEPARATOR);
+			clientDetailsStringBuffer.append(
+					paramName + TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN + paramValue + LINE_SEPARATOR);
 		}
 
 		log.trace("Client Details from Headers...{}{}", LINE_SEPARATOR, clientDetailsStringBuffer.toString());

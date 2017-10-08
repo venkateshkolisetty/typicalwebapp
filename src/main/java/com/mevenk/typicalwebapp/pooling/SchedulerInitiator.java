@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mevenk.typicalwebapp.scheduler;
+package com.mevenk.typicalwebapp.pooling;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

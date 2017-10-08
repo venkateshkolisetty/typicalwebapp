@@ -4,15 +4,18 @@
 package com.mevenk.typicalwebapp.controller;
 
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.THREAD_CONTEXT_KEY;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_SINGLE_COLUN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.formatDateToString;
 
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mevenk.typicalwebapp.service.ClientUtilService;
-import com.mevenk.typicalwebapp.util.TypicalWebAppConstants;
-import com.mevenk.typicalwebapp.util.TypicalWebAppUtil;
 
 /**
  * @author VENKATESH
@@ -32,9 +33,7 @@ import com.mevenk.typicalwebapp.util.TypicalWebAppUtil;
 @Controller()
 public class TypicalWebAppController {
 
-	private static final Logger log = LoggerFactory.getLogger(TypicalWebAppController.class);
-
-	private static final String LINE_SEPARATOR = TypicalWebAppConstants.lineSeparator;
+	private static final Logger log = LogManager.getLogger(TypicalWebAppController.class);
 
 	@Autowired
 	ClientUtilService clientUtilService;
@@ -49,21 +48,21 @@ public class TypicalWebAppController {
 
 		log.trace("Session Id : {}", sessionId);
 
-		log.debug("{}Application loaded at : {}{}{}{}", LINE_SEPARATOR, new Date(),
-				TypicalWebAppConstants.tabSpaceWithDoubleColun, httpServletRequest.getRequestURL(), LINE_SEPARATOR);
+		log.debug("Application loaded at : {}{}{}", formatDateToString(new Date()), TAB_SPACE_AROUND_DOUBLE_COLUN,
+				httpServletRequest.getRequestURL());
 
 		clientUtilService.logRequestDetails(httpServletRequest);
 
 		clientUtilService.logClientDetails(httpServletRequest);
 
-		log.debug("{}Redirecting to Welcome Page....{}", LINE_SEPARATOR, LINE_SEPARATOR);
+		log.debug("Redirecting to Welcome Page....");
 
 		return "redirect:/welcome";
 
 	}
 
 	@RequestMapping(value = "welcome", method = RequestMethod.GET)
-	public String fileUpload(ModelMap modelMap, HttpServletRequest httpServletRequest) {
+	public String welcome(ModelMap modelMap, HttpServletRequest httpServletRequest) {
 
 		ThreadContext.put(THREAD_CONTEXT_KEY, "welcome#" + httpServletRequest.getSession().getId());
 
@@ -80,15 +79,14 @@ public class TypicalWebAppController {
 	public @ResponseBody String testRequestResponse(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "testRequestResponseParameter1") String testRequestResponseParameter1) {
 
-		ThreadContext.put(THREAD_CONTEXT_KEY, "testRequestResponse#" + testRequestResponseParameter1
-				+ TypicalWebAppUtil.dateForCorrelationId(new Date()));
+		//appendCorrelationIdWithPrefix("testRequestResponse#" + testRequestResponseParameter1);
 
 		log.info("Request Parameter : {}", testRequestResponseParameter1);
 
 		clientUtilService.logRequestDetails(httpServletRequest);
 
-		return "Response for calling testRequestResponse with parameter"
-				+ TypicalWebAppConstants.tabSpaceWithSingleColun + testRequestResponseParameter1;
+		return "Response for calling testRequestResponse with parameter" + TAB_SPACE_AROUND_SINGLE_COLUN
+				+ testRequestResponseParameter1;
 
 	}
 
@@ -96,13 +94,11 @@ public class TypicalWebAppController {
 	public @ResponseBody String sleepRequest(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "sleepTimeInSeconds") int sleepTimeInSeconds) {
 
-		Date requestReceivedDate = new Date();
+		String requestReceivedDateString = formatDateToString(new Date());
 
-		ThreadContext.put(THREAD_CONTEXT_KEY,
-				"sleepRequest#" + sleepTimeInSeconds + TypicalWebAppUtil.dateForCorrelationId(requestReceivedDate));
+		//appendCorrelationIdWithPrefix("sleepRequest#" + sleepTimeInSeconds + "#" + requestReceivedDateString);
 
-		log.info("Sleep Request -> Time : {} Request Received : {}{}", sleepTimeInSeconds, requestReceivedDate,
-				TypicalWebAppUtil.dateForCorrelationId(new Date()));
+		log.info("Sleep Request -> Time : {} Request Received : {}", sleepTimeInSeconds, requestReceivedDateString);
 
 		clientUtilService.logClientDetails(httpServletRequest);
 		clientUtilService.logRequestDetails(httpServletRequest);
@@ -114,7 +110,7 @@ public class TypicalWebAppController {
 			return "ERROR";
 		}
 
-		return "Received : " + requestReceivedDate + " :: Responded : " + new Date();
+		return "Received : " + requestReceivedDateString + " :: Responded : " + formatDateToString(new Date());
 	}
 
 }

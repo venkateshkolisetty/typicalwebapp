@@ -27,16 +27,20 @@
 
 		<Property name="poolingLogFilesDir">${typicalWebappLogsDir}/poolingLogs
 		</Property>
-		<Property name="poolingLogFileName">TypicalWebappPoolingLog.log</Property>
+		<Property name="poolingLogFileName">TypicalWebappPooling.log</Property>
 
-		<Property name="springLogFilesDir">${typicalWebappLogsDir}/springLogs
+		<Property name="triggerLogFilesDir">${typicalWebappLogsDir}/triggerLogs
 		</Property>
-		<Property name="springLogFileName">SpringLog.log</Property>
+		<Property name="triggerLogFileName">TypicalWebappTrigger.log</Property>
+
+		<Property name="configLogFilesDir">${typicalWebappLogsDir}/configLogs
+		</Property>
+		<Property name="configLogFileName">TypicalWebAppConfig.log</Property>
 
 		<!-- <Property name="typicalWebappLogPatternLayout"><![CDATA[%d{MMM dd, 
 			yyyy HH:mm:ss.SSS} #TypicalWebApp# [%X{TypicalWebAppCorrelationId}] - [%t] 
 			%-5level %logger{36} - %msg%n]]></Property> -->
-		<Property name="typicalWebappLogPatternLayout"><![CDATA[%d{MMM dd, yyyy HH:mm:ss.SSS} #TypicalWebApp# [%X{TypicalWebAppCorrelationId}] - [%t] %-5level %C{1} - %msg%n]]></Property>
+		<Property name="typicalWebappLogPatternLayout"><![CDATA[%d{MMMdd,yyyy-HH:mm:ss.SSS}#TypicalWebApp#[%X{TypicalWebAppCorrelationId}][%t]|%-5level|%C{1}#%M-%msg%n]]></Property>
 
 	</Properties>
 
@@ -45,6 +49,7 @@
 		<!-- appLogRollingFile -->
 		<RollingFile name="appLogRollingFile" fileName="${appLogFilesDir}/${appLogFileName}"
 			filePattern="${appLogFilesDir}/${appLogFileName}_%d{yyyy-MM-dd}_%i">
+
 			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
 
 			<Filters>
@@ -67,6 +72,7 @@
 		<!-- utilLogRollingFile -->
 		<RollingFile name="utilLogRollingFile" fileName="${utilLogFilesDir}/${utilLogFileName}"
 			filePattern="${utilLogFilesDir}/${utilLogFileName}_%d{yyyy-MM-dd}_%i">
+
 			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
 
 			<Filters>
@@ -89,7 +95,9 @@
 		<!-- errorLogRollingFile -->
 		<RollingFile name="errorLogRollingFile"
 			fileName="${errorLogFilesDir}/${errorLogFileName}" filePattern="${errorLogFilesDir}/${errorLogFileName}_%d{yyyy-MM-dd}_%i">
+
 			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
+
 			<Policies>
 				<SizeBasedTriggeringPolicy size="100 MB" />
 				<TimeBasedTriggeringPolicy interval="1"
@@ -123,16 +131,19 @@
 
 			<HTMLLayout charset="UTF-8" title="Typicalwebapp Logs"
 				locationInfo="false" />
+
 			<Policies>
 				<SizeBasedTriggeringPolicy size="100 MB" />
 				<TimeBasedTriggeringPolicy interval="1"
 					modulate="false" />
 			</Policies>
+
 			<DefaultRolloverStrategy>
 				<Delete basePath="${htmlLogFilesDir}" maxDepth="1">
 					<IfLastModified age="1M" />
 				</Delete>
 			</DefaultRolloverStrategy>
+
 		</RollingFile>
 
 
@@ -140,6 +151,7 @@
 		<RollingFile name="poolingLogRollingFile"
 			fileName="${poolingLogFilesDir}/${poolingLogFileName}"
 			filePattern="${poolingLogFilesDir}/${poolingLogFileName}_%d{yyyy-MM-dd}_%i">
+
 			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
 
 			<Policies>
@@ -147,18 +159,41 @@
 				<TimeBasedTriggeringPolicy interval="1"
 					modulate="false" />
 			</Policies>
+
 			<DefaultRolloverStrategy>
 				<Delete basePath="${poolingLogFilesDir}" maxDepth="1">
 					<IfLastModified age="1M" />
 				</Delete>
 			</DefaultRolloverStrategy>
+
 		</RollingFile>
 
 
-		<!-- springLogRollingFile -->
-		<RollingFile name="springLogRollingFile"
-			fileName="${springLogFilesDir}/${springLogFileName}"
-			filePattern="${springLogFilesDir}/${springLogFileName}_%d{yyyy-MM-dd}_%i">
+		<!-- triggerLogRollingFile -->
+		<RollingFile name="triggerLogRollingFile"
+			fileName="${triggerLogFilesDir}/${triggerLogFileName}"
+			filePattern="${triggerLogFilesDir}/${triggerLogFileName}_%d{yyyy-MM-dd}_%i">
+
+			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
+
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB" />
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="false" />
+			</Policies>
+
+			<DefaultRolloverStrategy>
+				<Delete basePath="${triggerLogFilesDir}" maxDepth="1">
+					<IfLastModified age="1M" />
+				</Delete>
+			</DefaultRolloverStrategy>
+
+		</RollingFile>
+
+		<!-- configLogRollingFile -->
+		<RollingFile name="configLogRollingFile"
+			fileName="${configLogFilesDir}/${configLogFileName}"
+			filePattern="${configLogFilesDir}/${configLogFileName}_%d{yyyy-MM-dd}_%i">
 
 			<Filters>
 				<ThresholdFilter level="FATAL" onMatch="DENY"
@@ -166,16 +201,19 @@
 			</Filters>
 
 			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
+
 			<Policies>
 				<SizeBasedTriggeringPolicy size="100 MB" />
 				<TimeBasedTriggeringPolicy interval="1"
 					modulate="false" />
 			</Policies>
+
 			<DefaultRolloverStrategy>
-				<Delete basePath="${springLogFilesDir}" maxDepth="1">
-					<IfLastModified age="1M" />
+				<Delete basePath="${configLogFilesDir}" maxDepth="1">
+					<IfLastModified age="1d" />
 				</Delete>
 			</DefaultRolloverStrategy>
+
 		</RollingFile>
 
 		<!-- Console -->
@@ -195,8 +233,7 @@
 
 		<!-- utilLogRollingFile should be added to all child loggers -->
 
-		<Logger name="com.mevenk.typicalwebapp" level="TRACE"
-			additivity="false">
+		<Logger name="com.mevenk.typicalwebapp" level="ALL" additivity="false">
 			<!-- <AppenderRef ref="utilLogRollingFile" level="TRACE" /> -->
 			<AppenderRef ref="appLogRollingFile" level="INFO" />
 			<AppenderRef ref="errorLogRollingFile" level="ERROR" />
@@ -216,29 +253,39 @@
 		</Logger>
 
 		<!-- Independent of other loggers. -->
+		<Logger name="com.mevenk.typicalwebapp.config" level="CONFIG"
+			additivity="false">
+			<AppenderRef ref="configLogRollingFile" level="CONFIG" />
+		</Logger>
+
+		<!-- Independent of other loggers. -->
 		<Logger name="com.mevenk.typicalwebapp.service.impl.ClientUtilServiceimpl"
 			level="TRACE" additivity="false">
 			<AppenderRef ref="utilLogRollingFile" level="TRACE" />
 		</Logger>
 
 		<!-- Independent of other loggers. -->
-		<Logger name="com.mevenk.typicalwebapp.scheduler" level="POOLING"
+		<Logger name="com.mevenk.typicalwebapp.pooling" level="POOLING"
 			additivity="false">
+			<AppenderRef ref="errorLogRollingFile" level="ERROR" />
 			<AppenderRef ref="poolingLogRollingFile" level="POOLING" />
 		</Logger>
 
-		<Logger name="org.springframework" level="TRACE">
-			<AppenderRef ref="springLogRollingFile" level="DEBUG" />
+		<!-- Independent of other loggers. -->
+		<Logger name="com.mevenk.typicalwebapp.trigger" level="TRIGGER"
+			additivity="false">
+			<AppenderRef ref="errorLogRollingFile" level="ERROR" />
+			<AppenderRef ref="triggerLogRollingFile" level="TRIGGER" />
+		</Logger>
+
+		<Logger name="org.springframework" level="ALL">
+			<AppenderRef ref="configLogRollingFile" level="ALL" />
 		</Logger>
 
 		<Root level="ALL">
 			<AppenderRef ref="Console" />
 		</Root>
-		
-		<Logger name="com.mevenk.typicalwebapp.rough" level="ALL">
-			<AppenderRef ref="Console" />
-		</Logger>
-		
+
 	</Loggers>
 
 </Configuration>

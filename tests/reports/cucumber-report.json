@@ -1,0 +1,52 @@
+[
+	{
+		"line": 1,
+		"elements": [
+			{
+				"line": 3,
+				"name": "Response valid when with valid parameter",
+				"description": "",
+				"id": "typicalwebappcontroller;response-valid-when-with-valid-parameter",
+				"type": "scenario",
+				"keyword": "Scenario",
+				"steps": [
+					{
+						"result": {
+							"status": "undefined"
+						},
+						"line": 4,
+						"name": "Initiate TypicalWebApp Controller",
+						"match": {
+						},
+						"keyword": "Given "
+					},
+					{
+						"result": {
+							"status": "undefined"
+						},
+						"line": 5,
+						"name": "Send TestRequestResponse Request with valis parameter",
+						"match": {
+						},
+						"keyword": "When "
+					},
+					{
+						"result": {
+							"status": "undefined"
+						},
+						"line": 6,
+						"name": "Verify valid response received for TestRequestResponse",
+						"match": {
+						},
+						"keyword": "Then "
+					}
+				]
+			}
+		],
+		"name": "TypicalWebAppController",
+		"description": "",
+		"id": "typicalwebappcontroller",
+		"keyword": "Feature",
+		"uri": "tests/resources/features/TypicalWebAppController.feature"
+	}
+]

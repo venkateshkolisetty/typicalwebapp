@@ -3,11 +3,12 @@
  */
 package com.mevenk.typicalwebapp.config;
 
+import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.CONFIG;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
@@ -20,7 +21,6 @@ import org.springframework.beans.factory.InitializingBean;
 public class TypicalWebAppSourceBean implements InitializingBean, DisposableBean {
 
 	private static final Logger log = LogManager.getLogger(TypicalWebAppSourceBean.class);
-	private static final Level CONFIG = TypicalWebAppLogger.CONFIG;
 
 	private String beanClassName;
 
@@ -38,7 +38,7 @@ public class TypicalWebAppSourceBean implements InitializingBean, DisposableBean
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		log.log(CONFIG, "Properties set for " + beanClassName);
+		log.log(CONFIG, "Properties set for {}", beanClassName);
 
 	}
 
@@ -49,7 +49,7 @@ public class TypicalWebAppSourceBean implements InitializingBean, DisposableBean
 	 */
 	@Override
 	public void destroy() throws Exception {
-		log.log(CONFIG, "Destroying " + beanClassName);
+		log.log(CONFIG, "Destroying {}", beanClassName);
 
 	}
 

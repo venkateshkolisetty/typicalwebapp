@@ -5,7 +5,6 @@ package com.mevenk.typicalwebapp.config;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
-import java.text.SimpleDateFormat;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -25,7 +24,10 @@ import com.mevenk.typicalwebapp.service.ClientUtilService;
 import com.mevenk.typicalwebapp.service.TypicalWebAppService;
 import com.mevenk.typicalwebapp.service.impl.ClientUtilServiceimpl;
 import com.mevenk.typicalwebapp.service.impl.TypicalWebAppServiceImpl;
+import com.mevenk.typicalwebapp.trigger.ControllerTrigger;
 import com.mevenk.typicalwebapp.trigger.FileActionsTrigger;
+import com.mevenk.typicalwebapp.trigger.impl.ControllerRequestTrigger;
+import com.mevenk.typicalwebapp.trigger.impl.FileAcionsLoggingTrigger;
 
 /**
  * @author Venkatesh
@@ -38,10 +40,6 @@ import com.mevenk.typicalwebapp.trigger.FileActionsTrigger;
 @ComponentScan(basePackages = "com.mevenk.typicalwebapp")
 @EnableAspectJAutoProxy
 public class TypicalWebAppRootConfiguration implements SchedulingConfigurer {
-
-	private static final String SIMPLE_DATE_FORMAT_SOURCE_BEAN_DATES_PATTERN = TypicalWebAppPropertiesLoader.SOURCE_BEAN_DATE_FORMAT_PATTERN;
-	public static final SimpleDateFormat SIMPLE_DATE_FORMAT_SOURCE_BEAN_DATES = new SimpleDateFormat(
-			SIMPLE_DATE_FORMAT_SOURCE_BEAN_DATES_PATTERN);
 
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
@@ -71,8 +69,13 @@ public class TypicalWebAppRootConfiguration implements SchedulingConfigurer {
 		return new TypicalWebAppServiceImpl();
 	}
 
-	@Bean(name = "fileActionsTrigger")
+	@Bean(name = "fileActionsLoggingTrigger")
 	public FileActionsTrigger fileActionsTrigger() {
-		return new FileActionsTrigger();
+		return new FileAcionsLoggingTrigger();
+	}
+
+	@Bean(name = "controllerTrigger")
+	public ControllerTrigger controllerTrigger() {
+		return new ControllerRequestTrigger();
 	}
 }

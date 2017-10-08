@@ -43,14 +43,14 @@ public class TypicalWebAppInitializer extends AbstractAnnotationConfigDispatcher
 	private AnnotationConfigWebApplicationContext getRootContext() {
 		AnnotationConfigWebApplicationContext annotationConfigWebApplicationRootContext = new AnnotationConfigWebApplicationContext();
 		annotationConfigWebApplicationRootContext.setConfigLocation("com.mevenk.typicalwebapp.config");
-		annotationConfigWebApplicationRootContext.register(TypicalWebAppRootConfiguration.class);
+		//annotationConfigWebApplicationRootContext.register(TypicalWebAppRootConfiguration.class);
 		return annotationConfigWebApplicationRootContext;
 	}
 
 	private AnnotationConfigWebApplicationContext getDispatcherContext() {
 		AnnotationConfigWebApplicationContext annotationConfigWebApplicationDispatcherContext = new AnnotationConfigWebApplicationContext();
 		annotationConfigWebApplicationDispatcherContext.setConfigLocation("com.mevenk.typicalwebapp.config");
-		annotationConfigWebApplicationDispatcherContext.register(TypicalWebAppServletConfiguration.class);
+		//annotationConfigWebApplicationDispatcherContext.register(TypicalWebAppServletConfiguration.class);
 		return annotationConfigWebApplicationDispatcherContext;
 	}
 

@@ -3,14 +3,16 @@
  */
 package com.mevenk.typicalwebapp.service.impl;
 
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.FILE_SEPARATOR;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,8 +28,7 @@ import com.mevenk.typicalwebapp.util.TypicalWebAppUtil;
 @Component
 public class TypicalWebAppServiceImpl extends TypicalWebAppSourceBean implements TypicalWebAppService {
 
-	private static final Logger log = LoggerFactory.getLogger(TypicalWebAppServiceImpl.class);
-	private static final String FILE_SEPARATOR = TypicalWebAppConstants.fileSeparator;
+	private static final Logger log = LogManager.getLogger(TypicalWebAppServiceImpl.class);
 
 	String filesDirPathFromSystemProperty = System.getProperty("typicalwebappUploadedFilesDirPath");
 	String filesDirPath = filesDirPathFromSystemProperty + FILE_SEPARATOR;
@@ -39,7 +40,7 @@ public class TypicalWebAppServiceImpl extends TypicalWebAppSourceBean implements
 		try {
 
 			String originalFilename = uploadedFile.getOriginalFilename();
-			log.info("Received File {}{}", TypicalWebAppConstants.tabSpaceWithDoubleColun, originalFilename);
+			log.info("Received File {}{}", TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN, originalFilename);
 			byte[] fileInBytes = uploadedFile.getBytes();
 
 			// Path path = Paths.get(filesDirPath + originalFilename);
@@ -68,7 +69,7 @@ public class TypicalWebAppServiceImpl extends TypicalWebAppSourceBean implements
 			log.error("{}", TypicalWebAppUtil.exceptionStactTraceAsString(exception));
 		}
 
-		log.info("Uploaded File Status {}{}", TypicalWebAppConstants.tabSpaceWithDoubleColun,
+		log.info("Uploaded File Status {}{}", TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN,
 				fileUploadStatus.toString());
 
 		return fileUploadStatus;

@@ -9,6 +9,8 @@ package com.mevenk.typicalwebapp.config;
  */
 public class TypicalWebAppPropertiesLoader {
 
+	public static final String MISC_DATE_FORMAT_PATTERN = "dd/MM/yyyy HH:mm:ss.SSS";
+
 	public static final String CORRELATION_ID_DATE_FORMAT_PATTERN = "dd_MM_yyyy_HH_mm_ss_SSS";
 
 	public static final String TIMELY_LOGGER_DATE_FORMAT_PATTERN = "d/M/y H:m:s.S";

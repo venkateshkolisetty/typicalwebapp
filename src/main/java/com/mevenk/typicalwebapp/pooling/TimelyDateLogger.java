@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mevenk.typicalwebapp.scheduler;
+package com.mevenk.typicalwebapp.pooling;
 
 /**
  * @author Venkatesh
