@@ -9,6 +9,7 @@ import static com.mevenk.typicalwebapp.config.TypicalWebAppPropertiesLoader.TIME
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.ANGLE_BRACKET_CLOSE;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.ANGLE_BRACKET_OPEN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.COMMA_AND_SPACE;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.EMPTY_STRING;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.POUND_SIGN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SQUARE_BRACKET_CLOSE;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SQUARE_BRACKET_OPEN;
@@ -60,6 +61,9 @@ public abstract class TypicalWebAppUtil {
 	}
 
 	public static String objectArrayAsString(Object... objects) {
+		if (objects.length <= 0) {
+			return EMPTY_STRING;
+		}
 		StringBuilder stringBuilderObjects = new StringBuilder();
 		stringBuilderObjects.append(SQUARE_BRACKET_OPEN);
 		for (Object object : objects) {
@@ -81,7 +85,8 @@ public abstract class TypicalWebAppUtil {
 			if (object != null && isSimpleObject(object)) {
 				stringBuilderObjects.append(POUND_SIGN + String.valueOf(object));
 			} else if (typeRequired) {
-				stringBuilderObjects.append(POUND_SIGN + object.getClass().getSimpleName());
+				stringBuilderObjects.append(
+						POUND_SIGN + SQUARE_BRACKET_OPEN + object.getClass().getSimpleName() + SQUARE_BRACKET_CLOSE);
 			}
 		}
 		return stringBuilderObjects.toString();

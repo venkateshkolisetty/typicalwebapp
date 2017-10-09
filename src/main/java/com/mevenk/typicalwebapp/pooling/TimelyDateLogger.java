@@ -9,6 +9,6 @@ package com.mevenk.typicalwebapp.pooling;
  */
 public interface TimelyDateLogger {
 
-	public void fixedRateDatePooling();
+	public void timelyDatePoolingFromCron();
 
 }

@@ -3,8 +3,10 @@
  */
 package com.mevenk.typicalwebapp.config;
 
-import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.SIMPLE_DATE_FORMAT_CORRELATION_ID;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.UNDERSCORE;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.SIMPLE_DATE_FORMAT_CORRELATION_ID;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.argumentsAsAppendableString;
+import static com.mevenk.typicalwebapp.config.TypicalWebAppPropertiesLoader.CORRELATION_ID_DATE_FORMAT_PATTERN;
 import java.util.Date;
 
 import org.apache.logging.log4j.Level;
@@ -33,16 +35,23 @@ public abstract class TypicalWebAppLogger {
 	public static final Level CONFIG = Level.forName(LOG_LEVEL_CONFIG, 590);
 
 	public static void resetCorrelationId(String correlationIdPrefix) {
-		ThreadContext.put(THREAD_CONTEXT_KEY, correlationIdPrefix + UNDERSCORE + SIMPLE_DATE_FORMAT_CORRELATION_ID.format(new Date()));
-	}
-
-	/*public static void resetCorrelationIdWithPrefix(String correlationIdPrefix) {
 		ThreadContext.put(THREAD_CONTEXT_KEY,
 				correlationIdPrefix + UNDERSCORE + SIMPLE_DATE_FORMAT_CORRELATION_ID.format(new Date()));
 	}
 
-	public static void appendCorrelationIdWithPrefix(String correlationIdPrefix) {
-		ThreadContext.put(THREAD_CONTEXT_KEY, correlationIdPrefix + ThreadContext.get(THREAD_CONTEXT_KEY));
-	}*/
+	public static void addParametersToCorrelationId(Object... parameters) {
+		String correlationIdExisting = ThreadContext.get(THREAD_CONTEXT_KEY);
+		int lengthDateWithUnderScore = CORRELATION_ID_DATE_FORMAT_PATTERN.length() + 1;
+		int lengthExistingCorrelationId = correlationIdExisting.length();
+		String unserscoreAndDate = correlationIdExisting
+				.substring(lengthExistingCorrelationId - lengthDateWithUnderScore);
+		String correlationIdWithoutUnserscoreAndDate = correlationIdExisting.substring(0,
+				lengthExistingCorrelationId - unserscoreAndDate.length());
+		StringBuilder stringBuilderCorrelationIdModified = new StringBuilder();
+		stringBuilderCorrelationIdModified.append(correlationIdWithoutUnserscoreAndDate);
+		stringBuilderCorrelationIdModified.append(UNDERSCORE + argumentsAsAppendableString(true, parameters));
+		stringBuilderCorrelationIdModified.append(unserscoreAndDate);
+		ThreadContext.put(THREAD_CONTEXT_KEY, stringBuilderCorrelationIdModified.toString());
+	}
 
 }

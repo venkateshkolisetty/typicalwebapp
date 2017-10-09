@@ -3,10 +3,10 @@
  */
 package com.mevenk.typicalwebapp.trigger;
 
-import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.HYPHEN;
-import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.argumentsAsAppendableString;
-import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.objectArrayAsString;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.resetCorrelationId;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.HYPHEN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.objectArrayAsString;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 
@@ -19,14 +19,13 @@ public abstract class TypicalWebAppBaseTrigger {
 	protected static final String ADVICE_AND = " && ";
 	protected static final String ADVICE_OR = " || ";
 	protected static final String ADVICE_ANY_ARGS = "args(..)";
-	
+
 	protected String proceedingJoinPointFormatted;
 	protected String joinPointFormatted;
 
 	protected void generateCorrelationId(ProceedingJoinPoint proceedingJoinPoint) {
 		StringBuilder stringBuilderCorreltionIdPrefix = new StringBuilder();
 		stringBuilderCorreltionIdPrefix.append(proceedingJoinPoint.getSignature().getName());
-		stringBuilderCorreltionIdPrefix.append(argumentsAsAppendableString(false, proceedingJoinPoint.getArgs()));
 		resetCorrelationId(stringBuilderCorreltionIdPrefix.toString());
 	}
 

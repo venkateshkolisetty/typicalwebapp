@@ -4,6 +4,7 @@
 package com.mevenk.typicalwebapp.config;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -26,8 +27,10 @@ import com.mevenk.typicalwebapp.service.impl.ClientUtilServiceimpl;
 import com.mevenk.typicalwebapp.service.impl.TypicalWebAppServiceImpl;
 import com.mevenk.typicalwebapp.trigger.ControllerTrigger;
 import com.mevenk.typicalwebapp.trigger.FileActionsTrigger;
+import com.mevenk.typicalwebapp.trigger.PoolingTrigger;
 import com.mevenk.typicalwebapp.trigger.impl.ControllerRequestTrigger;
 import com.mevenk.typicalwebapp.trigger.impl.FileAcionsLoggingTrigger;
+import com.mevenk.typicalwebapp.trigger.impl.TimelyDatePoolingTrigger;
 
 /**
  * @author Venkatesh
@@ -69,13 +72,24 @@ public class TypicalWebAppRootConfiguration implements SchedulingConfigurer {
 		return new TypicalWebAppServiceImpl();
 	}
 
+	// ***********************************TRIGGERS****************************************
+
 	@Bean(name = "fileActionsLoggingTrigger")
-	public FileActionsTrigger fileActionsTrigger() {
+	@Scope(scopeName = SCOPE_PROTOTYPE)
+	public FileActionsTrigger fileActionsLoggingTrigger() {
 		return new FileAcionsLoggingTrigger();
 	}
 
-	@Bean(name = "controllerTrigger")
-	public ControllerTrigger controllerTrigger() {
+	@Bean(name = "controllerRequestTrigger")
+	@Scope(scopeName = SCOPE_PROTOTYPE)
+	public ControllerTrigger controllerRequestTrigger() {
 		return new ControllerRequestTrigger();
 	}
+
+	@Bean(name = "timelyDatePoolingTrigger")
+	@Scope(scopeName = SCOPE_PROTOTYPE)
+	public PoolingTrigger timelyDatePoolingTrigger() {
+		return new TimelyDatePoolingTrigger();
+	}
+	// ***********************************TRIGGERS-END************************************
 }

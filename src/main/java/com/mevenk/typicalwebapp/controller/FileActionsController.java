@@ -3,6 +3,7 @@
  */
 package com.mevenk.typicalwebapp.controller;
 
+import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN;
 
 import java.io.BufferedOutputStream;
@@ -48,8 +49,6 @@ public class FileActionsController {
 	@RequestMapping(value = "fileActionsPage", method = RequestMethod.GET)
 	public String fileActionsPage(ModelMap modelMap, HttpServletRequest httpServletRequest) {
 
-		//appendCorrelationIdWithPrefix("fileActionsPage#");
-
 		log.trace("Session Id : {}", httpServletRequest.getSession().getId());
 
 		log.debug("Page called at : {}{}{}", new Date(), TAB_SPACE_AROUND_DOUBLE_COLUN,
@@ -66,7 +65,8 @@ public class FileActionsController {
 	public @ResponseBody String fileUpload(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "uploadedFile") MultipartFile uploadedFile) {
 
-		//appendCorrelationIdWithPrefix("fileUpload#" + uploadedFile.getOriginalFilename());
+		String originalFilename = uploadedFile.getOriginalFilename();
+		addParametersToCorrelationId(originalFilename);
 
 		log.debug("Called at : {}{}{}", new Date(), TAB_SPACE_AROUND_DOUBLE_COLUN, httpServletRequest.getRequestURL());
 
@@ -75,7 +75,7 @@ public class FileActionsController {
 		FileUploadStatus fileUploadStatus = null;
 
 		try {
-			log.info("Received File Name : {}", uploadedFile.getOriginalFilename());
+			log.info("Received File Name : {}", originalFilename);
 
 			fileUploadStatus = typicalWebAppService.uploadFile(uploadedFile);
 
@@ -93,7 +93,7 @@ public class FileActionsController {
 			HttpServletResponse httpServletResponse,
 			@RequestParam(name = "fileToBeDownloaded", required = false) String fileToBeDownloaded) {
 
-		//appendCorrelationIdWithPrefix("fileDownload#" + fileToBeDownloaded);
+		addParametersToCorrelationId(fileToBeDownloaded);
 
 		log.debug("Called at : {}{}{}", new Date(), TAB_SPACE_AROUND_DOUBLE_COLUN, httpServletRequest.getRequestURL());
 
@@ -122,6 +122,7 @@ public class FileActionsController {
 			// httpServletResponse.setContentType("");
 
 			Cookie fileDownloadCookie = new Cookie("fileDownload", "true");
+			fileDownloadCookie.setSecure(true);
 			fileDownloadCookie.setPath("/");
 
 			httpServletResponse.addCookie(fileDownloadCookie);

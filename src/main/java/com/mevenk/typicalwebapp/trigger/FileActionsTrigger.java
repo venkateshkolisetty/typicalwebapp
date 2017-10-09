@@ -46,9 +46,7 @@ public class FileActionsTrigger extends TypicalWebAppBaseTrigger {
 
 	@Around(POINT_CUT_INITIALIZE_FILE_ACTIONS_PAGE)
 	protected void logAroundProcessFileActionsPage(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-		generateCorrelationId(proceedingJoinPoint);
-		generateProceedingJoinPointDetail(proceedingJoinPoint);
-		log.log(TRIGGER, "Trigger Around {}", proceedingJoinPointFormatted);
+		log.log(TRIGGER, "Trigger Around File Actions Page");
 		proceedingJoinPoint.proceed();
 	}
 

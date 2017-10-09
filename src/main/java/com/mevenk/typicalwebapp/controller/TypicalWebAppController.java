@@ -4,10 +4,12 @@
 package com.mevenk.typicalwebapp.controller;
 
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.THREAD_CONTEXT_KEY;
+import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_SINGLE_COLUN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.formatDateToString;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,8 +41,8 @@ public class TypicalWebAppController {
 	ClientUtilService clientUtilService;
 
 	@RequestMapping(value = "*", method = RequestMethod.GET)
-	public String applicationStartup(ModelMap modelMap, HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse) {
+	public void applicationStartup(ModelMap modelMap, HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) throws IOException {
 
 		String sessionId = httpServletRequest.getSession().getId();
 
@@ -57,7 +59,8 @@ public class TypicalWebAppController {
 
 		log.debug("Redirecting to Welcome Page....");
 
-		return "redirect:/welcome";
+		httpServletResponse.sendRedirect("welcome");
+		// return new ModelAndView("redirect:/welcome");
 
 	}
 
@@ -79,7 +82,10 @@ public class TypicalWebAppController {
 	public @ResponseBody String testRequestResponse(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "testRequestResponseParameter1") String testRequestResponseParameter1) {
 
-		//appendCorrelationIdWithPrefix("testRequestResponse#" + testRequestResponseParameter1);
+		addParametersToCorrelationId(testRequestResponseParameter1);
+
+		// appendCorrelationIdWithPrefix("testRequestResponse#" +
+		// testRequestResponseParameter1);
 
 		log.info("Request Parameter : {}", testRequestResponseParameter1);
 
@@ -94,9 +100,12 @@ public class TypicalWebAppController {
 	public @ResponseBody String sleepRequest(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "sleepTimeInSeconds") int sleepTimeInSeconds) {
 
+		addParametersToCorrelationId(sleepTimeInSeconds);
+
 		String requestReceivedDateString = formatDateToString(new Date());
 
-		//appendCorrelationIdWithPrefix("sleepRequest#" + sleepTimeInSeconds + "#" + requestReceivedDateString);
+		// appendCorrelationIdWithPrefix("sleepRequest#" + sleepTimeInSeconds + "#" +
+		// requestReceivedDateString);
 
 		log.info("Sleep Request -> Time : {} Request Received : {}", sleepTimeInSeconds, requestReceivedDateString);
 

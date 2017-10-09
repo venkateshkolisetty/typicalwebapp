@@ -24,7 +24,7 @@ public class TimelyDateLoggerImpl implements TimelyDateLogger {
 
 	@Scheduled(cron = "${datePoolingCronExpression}")
 	@Override
-	public void fixedRateDatePooling() {
+	public void timelyDatePoolingFromCron() {
 		log.log(POOLING, "Pooling..... | {}", currentDateForTimelyDateLogger());
 	}
 
