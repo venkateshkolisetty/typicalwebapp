@@ -17,7 +17,10 @@ import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SQUARE_BRACKE
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
 
 import com.mevenk.typicalwebapp.config.TypicalWebAppPropertiesLoader;
 
@@ -29,6 +32,10 @@ public abstract class TypicalWebAppUtil {
 
 	private static final Class<?>[] baseClasses = { String.class, Byte.class, Short.class, Integer.class, Long.class,
 			Float.class, Double.class, Boolean.class };
+
+	private static final String ALL_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	private static final int INT_MAX_VALUE_LENGTH = String.valueOf(Integer.MAX_VALUE).length();
 
 	private static final String PATTERN_SIMPLE_DATE_FORMAT_MISC_DATE = MISC_DATE_FORMAT_PATTERN;
 	private static final SimpleDateFormat SIMPLE_DATE_FORMAT_MISC_DATE = new SimpleDateFormat(
@@ -46,21 +53,86 @@ public abstract class TypicalWebAppUtil {
 	public static final SimpleDateFormat SIMPLE_DATE_FORMAT_CORRELATION_ID = new SimpleDateFormat(
 			PATTERN_SIMPLE_DATE_FORMAT_CORRELATION_ID);
 
-	public static String formatDateToString(Date date) {
+	public static synchronized String randomUUIDString() {
+		return UUID.randomUUID().toString();
+	}
+
+	public static synchronized String formatDateToString(Date date) {
 		return SIMPLE_DATE_FORMAT_MISC_DATE.format(date);
 	}
 
-	public static String currentDateForTimelyDateLogger() {
+	public static synchronized String currentDateForTimelyDateLogger() {
 		return SIMPLE_DATE_FORMAT_TIMELY_DATE_LOGGER.format(new Date());
 	}
 
-	public static String exceptionStactTraceAsString(Exception exception) {
+	public static synchronized Date randomDate() {
+		return randomFutureDate();
+	}
+
+	public static synchronized Date randomPastDate() {
+		Random randomCalendar = new Random();
+		Calendar calendar = Calendar.getInstance();
+		int currentYear = calendar.get(Calendar.YEAR);
+		calendar.set(Calendar.YEAR, currentYear - randomCalendar.nextInt(10));
+		calendar.set(Calendar.MONTH, currentYear - randomCalendar.nextInt(11));
+		calendar.set(Calendar.DAY_OF_MONTH, currentYear - randomCalendar.nextInt(26));
+		calendar.set(Calendar.HOUR, currentYear - randomCalendar.nextInt(11));
+		calendar.set(Calendar.MINUTE, currentYear - randomCalendar.nextInt(59));
+		calendar.set(Calendar.SECOND, currentYear - randomCalendar.nextInt(59));
+		calendar.set(Calendar.MILLISECOND, currentYear - randomCalendar.nextInt(998));
+		return calendar.getTime();
+	}
+
+	public static synchronized Date randomFutureDate() {
+		Random randomCalendar = new Random();
+		Calendar calendar = Calendar.getInstance();
+		int currentYear = calendar.get(Calendar.YEAR);
+		calendar.set(Calendar.YEAR, currentYear + randomCalendar.nextInt(10));
+		calendar.set(Calendar.MONTH, currentYear + randomCalendar.nextInt(11));
+		calendar.set(Calendar.DAY_OF_MONTH, currentYear + randomCalendar.nextInt(26));
+		calendar.set(Calendar.HOUR, currentYear + randomCalendar.nextInt(11));
+		calendar.set(Calendar.MINUTE, currentYear + randomCalendar.nextInt(59));
+		calendar.set(Calendar.SECOND, currentYear + randomCalendar.nextInt(59));
+		calendar.set(Calendar.MILLISECOND, currentYear + randomCalendar.nextInt(998));
+		return calendar.getTime();
+	}
+
+	public static synchronized int randomPositiveNumber() {
+		return randomPositiveNumber(5);
+	}
+
+	public static synchronized int randomPositiveNumber(int numberSize) {
+		if (numberSize > INT_MAX_VALUE_LENGTH) {
+			numberSize = INT_MAX_VALUE_LENGTH;
+		}
+		Random random = new Random();
+		StringBuilder stringBuilderRandomPositiveNumber = new StringBuilder();
+		for (int index = 0; index < numberSize; index++) {
+			stringBuilderRandomPositiveNumber.append(random.nextInt(10));
+		}
+		return Integer.valueOf(stringBuilderRandomPositiveNumber.toString());
+	}
+
+	public static synchronized String randomString() {
+		return randomString(10);
+	}
+
+	public static synchronized String randomString(int requiredStringLength) {
+		Random random = new Random();
+		StringBuilder stringBuilderRandomString = new StringBuilder();
+		for (int index = 0; index < requiredStringLength; index++) {
+			stringBuilderRandomString.append(ALL_CHARS.charAt(random.nextInt(ALL_CHARS.length() - 1)));
+		}
+		return stringBuilderRandomString.toString();
+	}
+
+	public static synchronized String exceptionStactTraceAsString(Exception exception) {
 		StringWriter stringWriter = new StringWriter();
 		exception.printStackTrace(new PrintWriter(stringWriter));
 		return stringWriter.toString();
 	}
 
-	public static String objectArrayAsString(Object... objects) {
+	public static synchronized String objectArrayAsString(Object... objects) {
 		if (objects.length <= 0) {
 			return EMPTY_STRING;
 		}
@@ -79,10 +151,10 @@ public abstract class TypicalWebAppUtil {
 		return stringBuilderObjects.toString();
 	}
 
-	public static String argumentsAsAppendableString(boolean typeRequired, Object... objects) {
+	public static synchronized String argumentsAsAppendableString(boolean typeRequired, Object... objects) {
 		StringBuilder stringBuilderObjects = new StringBuilder();
 		for (Object object : objects) {
-			if (object != null && isSimpleObject(object)) {
+			if (object != null && isBaseClass(object)) {
 				stringBuilderObjects.append(POUND_SIGN + String.valueOf(object));
 			} else if (typeRequired) {
 				stringBuilderObjects.append(
@@ -90,14 +162,6 @@ public abstract class TypicalWebAppUtil {
 			}
 		}
 		return stringBuilderObjects.toString();
-	}
-
-	private static boolean isSimpleObject(Object object) {
-		if (isBaseClass(object)) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	private static boolean isBaseClass(Object object) {

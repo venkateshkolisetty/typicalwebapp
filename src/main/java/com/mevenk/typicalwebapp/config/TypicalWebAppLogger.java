@@ -3,10 +3,12 @@
  */
 package com.mevenk.typicalwebapp.config;
 
+import static com.mevenk.typicalwebapp.config.TypicalWebAppPropertiesLoader.CORRELATION_ID_DATE_FORMAT_PATTERN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.HYPHEN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.UNDERSCORE;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.SIMPLE_DATE_FORMAT_CORRELATION_ID;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.argumentsAsAppendableString;
-import static com.mevenk.typicalwebapp.config.TypicalWebAppPropertiesLoader.CORRELATION_ID_DATE_FORMAT_PATTERN;
+
 import java.util.Date;
 
 import org.apache.logging.log4j.Level;
@@ -49,7 +51,7 @@ public abstract class TypicalWebAppLogger {
 				lengthExistingCorrelationId - unserscoreAndDate.length());
 		StringBuilder stringBuilderCorrelationIdModified = new StringBuilder();
 		stringBuilderCorrelationIdModified.append(correlationIdWithoutUnserscoreAndDate);
-		stringBuilderCorrelationIdModified.append(UNDERSCORE + argumentsAsAppendableString(true, parameters));
+		stringBuilderCorrelationIdModified.append(HYPHEN + argumentsAsAppendableString(true, parameters) + HYPHEN);
 		stringBuilderCorrelationIdModified.append(unserscoreAndDate);
 		ThreadContext.put(THREAD_CONTEXT_KEY, stringBuilderCorrelationIdModified.toString());
 	}

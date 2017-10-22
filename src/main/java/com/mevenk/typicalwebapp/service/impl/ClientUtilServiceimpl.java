@@ -39,8 +39,8 @@ public class ClientUtilServiceimpl extends TypicalWebAppSourceBean implements Cl
 	public void logRequestDetails(HttpServletRequest httpServletRequest) {
 
 		log.trace("{}{}{}{}{}", httpServletRequest.getRequestURL(),
-				TypicalWebAppConstants.TAB_SPACE_AROUND_SINGLE_COLUN, httpServletRequest.getMethod(),
-				TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN, new Date());
+				TypicalWebAppConstants.SPACE_AROUND_SINGLE_COLUN, httpServletRequest.getMethod(),
+				TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN, new Date());
 
 		Map<String, String[]> requestParameterMap = httpServletRequest.getParameterMap();
 		if (requestParameterMap.size() > 0) {
@@ -49,7 +49,7 @@ public class ClientUtilServiceimpl extends TypicalWebAppSourceBean implements Cl
 
 			for (Entry<String, String[]> currentEntry : requestParameterMap.entrySet()) {
 				requestParametersStringBuffer.append(TypicalWebAppConstants.TAB_SPACE + currentEntry.getKey()
-						+ TypicalWebAppConstants.TAB_SPACE_AROUND_SINGLE_COLUN
+						+ TypicalWebAppConstants.SPACE_AROUND_SINGLE_COLUN
 						+ Arrays.toString(currentEntry.getValue()).replaceAll("^\\[|\\]$", "") + LINE_SEPARATOR);
 			}
 
@@ -66,9 +66,9 @@ public class ClientUtilServiceimpl extends TypicalWebAppSourceBean implements Cl
 
 		UserAgent userAgent = UserAgent.parseUserAgentString(httpServletRequest.getHeader("User-Agent"));
 
-		log.trace("Client{}{}{}{}{}{}", TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN,
-				httpServletRequest.getRemoteHost(), TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN,
-				userAgent.getId(), TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN, userAgent.toString());
+		log.trace("Client{}{}{}{}{}{}", TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN,
+				httpServletRequest.getRemoteHost(), TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN,
+				userAgent.getId(), TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN, userAgent.toString());
 
 		StringBuffer clientDetailsStringBuffer = new StringBuffer();
 
@@ -77,7 +77,7 @@ public class ClientUtilServiceimpl extends TypicalWebAppSourceBean implements Cl
 			String paramName = (String) headerNames.nextElement();
 			String paramValue = httpServletRequest.getHeader(paramName);
 			clientDetailsStringBuffer.append(
-					paramName + TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN + paramValue + LINE_SEPARATOR);
+					paramName + TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN + paramValue + LINE_SEPARATOR);
 		}
 
 		log.trace("Client Details from Headers...{}{}", LINE_SEPARATOR, clientDetailsStringBuffer.toString());

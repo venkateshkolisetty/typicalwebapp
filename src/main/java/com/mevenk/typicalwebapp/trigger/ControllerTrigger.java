@@ -4,10 +4,9 @@
 package com.mevenk.typicalwebapp.trigger;
 
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.TRIGGER;
-import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SQUARE_BRACKET_OPEN;
-import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SQUARE_BRACKET_CLOSE;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.exceptionStactTraceAsString;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.objectArrayAsString;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -83,16 +82,11 @@ public class ControllerTrigger extends TypicalWebAppBaseTrigger {
 		StringBuilder stringBuilderRequestMappingParams = new StringBuilder();
 		MethodSignature methodSignatureRequestMapping = (MethodSignature) joinPoint.getSignature();
 		RequestMapping requestMapping = methodSignatureRequestMapping.getMethod().getAnnotation(RequestMapping.class);
-		stringBuilderRequestMappingParams
-				.append(SQUARE_BRACKET_OPEN + objectArrayAsString(requestMapping.value()) + SQUARE_BRACKET_CLOSE);
-		stringBuilderRequestMappingParams
-				.append(SQUARE_BRACKET_OPEN + objectArrayAsString(requestMapping.method()) + SQUARE_BRACKET_CLOSE);
-		stringBuilderRequestMappingParams
-				.append(SQUARE_BRACKET_OPEN + objectArrayAsString(requestMapping.headers()) + SQUARE_BRACKET_CLOSE);
-		stringBuilderRequestMappingParams
-				.append(SQUARE_BRACKET_OPEN + objectArrayAsString(requestMapping.params()) + SQUARE_BRACKET_CLOSE);
-		stringBuilderRequestMappingParams
-				.append(SQUARE_BRACKET_OPEN + objectArrayAsString(requestMapping.produces()) + SQUARE_BRACKET_CLOSE);
+		stringBuilderRequestMappingParams.append(objectArrayAsString(requestMapping.value()));
+		stringBuilderRequestMappingParams.append(objectArrayAsString(requestMapping.method()));
+		stringBuilderRequestMappingParams.append(objectArrayAsString(requestMapping.headers()));
+		stringBuilderRequestMappingParams.append(objectArrayAsString(requestMapping.params()));
+		stringBuilderRequestMappingParams.append(objectArrayAsString(requestMapping.produces()));
 		requestMappingFormatted = stringBuilderRequestMappingParams.toString();
 		return requestMappingFormatted;
 	}

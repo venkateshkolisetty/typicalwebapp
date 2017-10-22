@@ -3,7 +3,7 @@
  */
 package com.mevenk.typicalwebapp.controller;
 
-import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_SINGLE_COLUN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SPACE_AROUND_SINGLE_COLUN;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.spy;
@@ -39,7 +39,7 @@ public class TypicalWebAppControllerTest {
 
 	private static final String TEST_REQUEST_RESPONSE_VALID_PARAM = "";
 	private static final String TEST_REQUEST_RESPONSE_VALID_RESPONSE = "Response for calling testRequestResponse with parameter"
-			+ TAB_SPACE_AROUND_SINGLE_COLUN + TEST_REQUEST_RESPONSE_VALID_PARAM;
+			+ SPACE_AROUND_SINGLE_COLUN + TEST_REQUEST_RESPONSE_VALID_PARAM;
 
 	@InjectMocks
 	TypicalWebAppController typicalWebAppController;

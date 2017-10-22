@@ -1,5 +1,9 @@
 package com.mevenk.typicalwebapp.config;
 
+import static com.mevenk.typicalwebapp.config.TypicalWebAppControllerConfig.TYPICAL_WEB_APP_REST_WEB_SERVICE_REQUEST_MAPPING;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.ASTERISK;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SLASH;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -13,6 +17,10 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class TypicalWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
+	static final String PROFILE_TYPICAL_WEB_APP_ROOT_CONFIGURATION = "TypicalWebAppRoot";
+	static final String PROFILE_TYPICAL_WEB_APP_SERVLET_CONFIGURATION = "TypicalWebAppServlet";
+
+	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 
 		WebApplicationContext webApplicationRootContext = getRootContext();
@@ -20,10 +28,13 @@ public class TypicalWebAppInitializer extends AbstractAnnotationConfigDispatcher
 
 		servletContext.addListener(new ContextLoaderListener(webApplicationRootContext));
 
-		ServletRegistration.Dynamic dispatcherDynamicServlet = servletContext.addServlet("DispatcherServlet",
-				new DispatcherServlet(webApplicationDispatcherContext));
+		DispatcherServlet dispatcherServlet = new DispatcherServlet(webApplicationDispatcherContext);
+		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 
-		dispatcherDynamicServlet.addMapping("/");
+		ServletRegistration.Dynamic dispatcherDynamicServlet = servletContext.addServlet("DispatcherServlet",
+				dispatcherServlet);
+		dispatcherDynamicServlet.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+		dispatcherDynamicServlet.addMapping(SLASH);
 		dispatcherDynamicServlet.setAsyncSupported(true);
 		dispatcherDynamicServlet.setLoadOnStartup(1);
 
@@ -38,25 +49,29 @@ public class TypicalWebAppInitializer extends AbstractAnnotationConfigDispatcher
 		defaultServlet.addMapping("*.woff2");
 		defaultServlet.addMapping("*.ttf");
 
+		ServletRegistration.Dynamic servletRESTWebService = servletContext.addServlet("REST-WebService",
+				new DefaultServlet());
+		servletRESTWebService.setInitParameter("com.sun.jersey.config.property.packages",
+				"com.mevenk.typicalwebapp.webservice.rest");
+		servletRESTWebService.addMapping(SLASH + TYPICAL_WEB_APP_REST_WEB_SERVICE_REQUEST_MAPPING + SLASH + ASTERISK);
+		servletRESTWebService.setLoadOnStartup(1);
 	}
 
 	private AnnotationConfigWebApplicationContext getRootContext() {
 		AnnotationConfigWebApplicationContext annotationConfigWebApplicationRootContext = new AnnotationConfigWebApplicationContext();
 		annotationConfigWebApplicationRootContext.setConfigLocation("com.mevenk.typicalwebapp.config");
-		//annotationConfigWebApplicationRootContext.register(TypicalWebAppRootConfiguration.class);
 		return annotationConfigWebApplicationRootContext;
 	}
 
 	private AnnotationConfigWebApplicationContext getDispatcherContext() {
 		AnnotationConfigWebApplicationContext annotationConfigWebApplicationDispatcherContext = new AnnotationConfigWebApplicationContext();
 		annotationConfigWebApplicationDispatcherContext.setConfigLocation("com.mevenk.typicalwebapp.config");
-		//annotationConfigWebApplicationDispatcherContext.register(TypicalWebAppServletConfiguration.class);
 		return annotationConfigWebApplicationDispatcherContext;
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		return new String[] { "/" };
+		return new String[] { SLASH };
 	}
 
 	@Override

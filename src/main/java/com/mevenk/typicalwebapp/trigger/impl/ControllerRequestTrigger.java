@@ -19,11 +19,13 @@ public class ControllerRequestTrigger extends ControllerTrigger {
 
 	private static final Logger log = LogManager.getLogger(ControllerRequestTrigger.class);
 
+	@Override
 	protected void logPreControllerRequest(JoinPoint joinPoint) {
 		generateJointPointDetail(joinPoint);
 		log.log(TRIGGER, "Performing Pre Request Activities {}", joinPointFormatted);
 	}
 
+	@Override
 	protected void logPostControllerRequest(JoinPoint joinPoint) {
 		log.log(TRIGGER, "Performing Post Request Activities {}", joinPointFormatted);
 	}

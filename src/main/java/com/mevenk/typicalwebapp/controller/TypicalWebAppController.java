@@ -5,9 +5,11 @@ package com.mevenk.typicalwebapp.controller;
 
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.THREAD_CONTEXT_KEY;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
-import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN;
-import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_SINGLE_COLUN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SLASH;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SPACE_AROUND_SINGLE_COLUN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.formatDateToString;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.io.IOException;
 import java.util.Date;
@@ -22,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -40,7 +41,7 @@ public class TypicalWebAppController {
 	@Autowired
 	ClientUtilService clientUtilService;
 
-	@RequestMapping(value = "*", method = RequestMethod.GET)
+	@RequestMapping(value = SLASH, method = GET)
 	public void applicationStartup(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) throws IOException {
 
@@ -50,7 +51,7 @@ public class TypicalWebAppController {
 
 		log.trace("Session Id : {}", sessionId);
 
-		log.debug("Application loaded at : {}{}{}", formatDateToString(new Date()), TAB_SPACE_AROUND_DOUBLE_COLUN,
+		log.debug("Application loaded at : {}{}{}", formatDateToString(new Date()), SPACE_AROUND_DOUBLE_COLUN,
 				httpServletRequest.getRequestURL());
 
 		clientUtilService.logRequestDetails(httpServletRequest);
@@ -60,11 +61,10 @@ public class TypicalWebAppController {
 		log.debug("Redirecting to Welcome Page....");
 
 		httpServletResponse.sendRedirect("welcome");
-		// return new ModelAndView("redirect:/welcome");
 
 	}
 
-	@RequestMapping(value = "welcome", method = RequestMethod.GET)
+	@RequestMapping(value = "welcome", method = GET)
 	public String welcome(ModelMap modelMap, HttpServletRequest httpServletRequest) {
 
 		ThreadContext.put(THREAD_CONTEXT_KEY, "welcome#" + httpServletRequest.getSession().getId());
@@ -78,25 +78,20 @@ public class TypicalWebAppController {
 
 	}
 
-	@RequestMapping(value = "testRequestResponse", method = RequestMethod.GET)
+	@RequestMapping(value = "testRequestResponse", method = GET)
 	public @ResponseBody String testRequestResponse(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "testRequestResponseParameter1") String testRequestResponseParameter1) {
-
-		addParametersToCorrelationId(testRequestResponseParameter1);
-
-		// appendCorrelationIdWithPrefix("testRequestResponse#" +
-		// testRequestResponseParameter1);
 
 		log.info("Request Parameter : {}", testRequestResponseParameter1);
 
 		clientUtilService.logRequestDetails(httpServletRequest);
 
-		return "Response for calling testRequestResponse with parameter" + TAB_SPACE_AROUND_SINGLE_COLUN
+		return "Response for calling testRequestResponse with parameter" + SPACE_AROUND_SINGLE_COLUN
 				+ testRequestResponseParameter1;
 
 	}
 
-	@RequestMapping(value = "sleepRequest", method = RequestMethod.GET)
+	@RequestMapping(value = "sleepRequest", method = GET)
 	public @ResponseBody String sleepRequest(ModelMap modelMap, HttpServletRequest httpServletRequest,
 			@RequestParam(name = "sleepTimeInSeconds") int sleepTimeInSeconds) {
 
@@ -104,18 +99,15 @@ public class TypicalWebAppController {
 
 		String requestReceivedDateString = formatDateToString(new Date());
 
-		// appendCorrelationIdWithPrefix("sleepRequest#" + sleepTimeInSeconds + "#" +
-		// requestReceivedDateString);
-
 		log.info("Sleep Request -> Time : {} Request Received : {}", sleepTimeInSeconds, requestReceivedDateString);
 
 		clientUtilService.logClientDetails(httpServletRequest);
 		clientUtilService.logRequestDetails(httpServletRequest);
 
 		try {
-			Thread.sleep(sleepTimeInSeconds * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Thread.sleep(sleepTimeInSeconds * 1_000L);
+		} catch (InterruptedException interruptedException) {
+			Thread.currentThread().interrupt();
 			return "ERROR";
 		}
 

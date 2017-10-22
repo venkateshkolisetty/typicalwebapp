@@ -4,7 +4,7 @@
 package com.mevenk.typicalwebapp.controller;
 
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
-import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN;
 
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
@@ -51,7 +51,7 @@ public class FileActionsController {
 
 		log.trace("Session Id : {}", httpServletRequest.getSession().getId());
 
-		log.debug("Page called at : {}{}{}", new Date(), TAB_SPACE_AROUND_DOUBLE_COLUN,
+		log.debug("Page called at : {}{}{}", new Date(), SPACE_AROUND_DOUBLE_COLUN,
 				httpServletRequest.getRequestURL());
 
 		clientUtilService.logRequestDetails(httpServletRequest);
@@ -68,7 +68,7 @@ public class FileActionsController {
 		String originalFilename = uploadedFile.getOriginalFilename();
 		addParametersToCorrelationId(originalFilename);
 
-		log.debug("Called at : {}{}{}", new Date(), TAB_SPACE_AROUND_DOUBLE_COLUN, httpServletRequest.getRequestURL());
+		log.debug("Called at : {}{}{}", new Date(), SPACE_AROUND_DOUBLE_COLUN, httpServletRequest.getRequestURL());
 
 		clientUtilService.logRequestDetails(httpServletRequest);
 
@@ -81,7 +81,7 @@ public class FileActionsController {
 
 		} catch (Exception exception) {
 			log.fatal(TypicalWebAppUtil.exceptionStactTraceAsString(exception));
-			fileUploadStatus = FileUploadStatus.FAIl;
+			fileUploadStatus = FileUploadStatus.FILE_UPLOAD_FAIl;
 		}
 
 		return fileUploadStatus.toString();
@@ -95,7 +95,7 @@ public class FileActionsController {
 
 		addParametersToCorrelationId(fileToBeDownloaded);
 
-		log.debug("Called at : {}{}{}", new Date(), TAB_SPACE_AROUND_DOUBLE_COLUN, httpServletRequest.getRequestURL());
+		log.debug("Called at : {}{}{}", new Date(), SPACE_AROUND_DOUBLE_COLUN, httpServletRequest.getRequestURL());
 
 		Object[] dataObject;
 

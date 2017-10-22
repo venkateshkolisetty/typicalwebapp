@@ -40,7 +40,7 @@ public class TypicalWebAppServiceImpl extends TypicalWebAppSourceBean implements
 		try {
 
 			String originalFilename = uploadedFile.getOriginalFilename();
-			log.info("Received File {}{}", TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN, originalFilename);
+			log.info("Received File {}{}", TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN, originalFilename);
 			byte[] fileInBytes = uploadedFile.getBytes();
 
 			// Path path = Paths.get(filesDirPath + originalFilename);
@@ -59,17 +59,17 @@ public class TypicalWebAppServiceImpl extends TypicalWebAppSourceBean implements
 			bufferedOutputStream.close();
 
 			if (destinationFile.exists()) {
-				fileUploadStatus = FileUploadStatus.SUCCESS;
+				fileUploadStatus = FileUploadStatus.FILE_UPLOAD_SUCCESS;
 			} else {
-				fileUploadStatus = FileUploadStatus.FAIl;
+				fileUploadStatus = FileUploadStatus.FILE_UPLOAD_FAIl;
 			}
 
 		} catch (IOException exception) {
-			fileUploadStatus = FileUploadStatus.FAIl;
+			fileUploadStatus = FileUploadStatus.FILE_UPLOAD_FAIl;
 			log.error("{}", TypicalWebAppUtil.exceptionStactTraceAsString(exception));
 		}
 
-		log.info("Uploaded File Status {}{}", TypicalWebAppConstants.TAB_SPACE_AROUND_DOUBLE_COLUN,
+		log.info("Uploaded File Status {}{}", TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN,
 				fileUploadStatus.toString());
 
 		return fileUploadStatus;

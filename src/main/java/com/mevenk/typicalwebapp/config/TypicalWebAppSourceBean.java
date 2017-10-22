@@ -4,6 +4,15 @@
 package com.mevenk.typicalwebapp.config;
 
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.CONFIG;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.AT_SIGH;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.BRACES_CLOSE;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.BRACES_OPEN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.DOUBLE_SPACE;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.EMPTY_STRING;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.LINE_SEPARATOR;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SINGLE_COLUN_AND_SPACE;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SINGLE_SPACE;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.exceptionStactTraceAsString;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -53,51 +62,56 @@ public class TypicalWebAppSourceBean implements InitializingBean, DisposableBean
 
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		String newLine = System.getProperty("line.separator");
 
-		result.append(this.getClass().getName() + "@" + Integer.toHexString(this.hashCode()));
-		result.append(" Object {");
-		result.append(newLine);
+		result.append(this.getClass().getName() + AT_SIGH + Integer.toHexString(this.hashCode()));
+		result.append(SINGLE_SPACE + "Object" + SINGLE_SPACE + BRACES_OPEN);
+		result.append(LINE_SEPARATOR);
 
 		Field[] fields = this.getClass().getFields();
 
 		// print field names paired with their values
 		for (Field field : fields) {
-			result.append("  ");
+			result.append(DOUBLE_SPACE);
 			try {
 				result.append(field.getName());
-				result.append(": ");
+				result.append(SINGLE_COLUN_AND_SPACE);
 				result.append(field.get(this));
-				result.append(newLine);
-			} catch (IllegalAccessException ex) {
-				System.out.println(ex);
+				result.append(LINE_SEPARATOR);
+			} catch (IllegalAccessException exception) {
+				log.log(CONFIG, "Error generating toString during field {}->{}", field.getName(),
+						this.getClass().getSimpleName());
+				log.error("{}", exceptionStactTraceAsString(exception));
 			}
 
 		}
 
 		Method[] methods = this.getClass().getMethods();
 
-		String methodName = "";
+		String methodName = null;
 		for (Method method : methods) {
 			try {
 				methodName = method.getName();
 				if (methodName.startsWith("get") && !methodName.equalsIgnoreCase("getClass")) {
-					result.append("  ");
+					result.append(DOUBLE_SPACE);
 					// result.append(methodName.substring(3).replaceFirst("\\b([A-Z])(.*)",
 					// "\\L$1$2"));
-					result.append(new String("" + methodName.charAt(3)).toLowerCase() + "" + methodName.substring(4));
-					result.append(": ");
+					result.append(new String(EMPTY_STRING + methodName.charAt(3)).toLowerCase() + EMPTY_STRING
+							+ methodName.substring(4));
+					result.append(SINGLE_COLUN_AND_SPACE);
 					result.append(method.invoke(this));
-					result.append(newLine);
+					result.append(LINE_SEPARATOR);
 				}
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-				System.out.println(ex);
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException exception) {
+				log.log(CONFIG, "Error generating toString during method {}->{}", methodName,
+						this.getClass().getSimpleName());
+				log.error("{}", exceptionStactTraceAsString(exception));
 			}
 		}
 
-		result.append("}");
+		result.append(BRACES_CLOSE);
 
 		return result.toString();
 	}

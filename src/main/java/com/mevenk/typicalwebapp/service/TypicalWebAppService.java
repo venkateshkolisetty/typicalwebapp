@@ -12,11 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 public interface TypicalWebAppService {
 
 	enum FileUploadStatus {
-		SUCCESS, FAIl;
+		FILE_UPLOAD_SUCCESS, FILE_UPLOAD_FAIl;
 	}
 
 	FileUploadStatus uploadFile(MultipartFile uploadedFile);
 
 	Object[] downloadFile(String fileToBeDownloaded);
-
+	
 }

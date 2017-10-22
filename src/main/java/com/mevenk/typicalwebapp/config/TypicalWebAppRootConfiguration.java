@@ -3,8 +3,8 @@
  */
 package com.mevenk.typicalwebapp.config;
 
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -47,7 +47,6 @@ public class TypicalWebAppRootConfiguration implements SchedulingConfigurer {
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
 		scheduledTaskRegistrar.setScheduler(taskExecutor());
-
 	}
 
 	@Bean(destroyMethod = "shutdown")

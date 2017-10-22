@@ -8,9 +8,9 @@ $(document)
 			.ready(
 					function() {
 
-						$('#fileUploadDiv')
+						/*$('#fileUploadDiv')
 								.append(
-										'<input id="fileUpload" type="file" name="uploadedFile" >');
+										'<input id="fileUpload" type="file" name="uploadedFile" >');*/
 
 					});
 
@@ -33,6 +33,7 @@ $(document)
 			},
 			success : function(reply) {
 				console.log(reply);
+				$('#testRequestResponseResponseData').html(reply);
 			},
 			error : function(xhr) {
 				console.log(xhr);
@@ -146,7 +147,50 @@ $(document)
                 $preparingFileModal.dialog('close');
                 $("#error-modal").dialog({ modal: true });
             }
-        });
+        }).done(function () { alert('File download a success!'); })
+        .fail(function () { alert('File download failed!'); });
 		
 		
 	}
+	
+	function verifyIfNumber(inputElement){
+		var inputVal = inputElement.val();
+		console.log('Input Given : ' + inputVal + ';Is Numeric: ' + $.isNumeric(inputVal));
+		if(!$.isNumeric(inputVal)){
+			inputElement.val('');
+		}
+		
+	}
+	
+	function getTypicalWebAppBean(typicalWebAppBeanId){
+		
+		if($.trim(typicalWebAppBeanId).length == 0 || !$.isNumeric(typicalWebAppBeanId)){
+			console.log('Invalid Input Id :' + typicalWebAppBeanId);
+			return;
+		}
+		
+		console.log('Sending Request with Input Id : ' + typicalWebAppBeanId);
+		
+		$.ajax({
+
+			url : 'typicalwebappbean',
+			type : 'GET',
+			dataType : 'text',
+			contentType : "application/json",
+			data : {
+				typicalWebAppBeanId : typicalWebAppBeanId
+			},
+			success : function(reply, data) {
+				console.log(reply);
+				console.log(reply.length);
+			},
+			error : function(xhr) {
+				console.log(xhr);
+			},
+			complete : function(reply, data) {
+				console.log('typicalwebappbean Complete;' + data);
+			}
+		});
+		
+	}
+	
