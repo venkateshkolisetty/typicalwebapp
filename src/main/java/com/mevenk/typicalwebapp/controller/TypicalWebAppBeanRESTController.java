@@ -3,8 +3,8 @@
  */
 package com.mevenk.typicalwebapp.controller;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppControllerConfig.TYPICAL_WEB_APP_BEAN_REST_CONTROLLER_REQUEST_MAPPING;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_BEAN_REST_CONTROLLER_REQUEST_MAPPING;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mevenk.typicalwebapp.bean.TypicalWebAppBean;
+import com.mevenk.typicalwebapp.controller.response.ResponseEntityTypicalWebAppBean;
 import com.mevenk.typicalwebapp.service.TypicalWebAppBeanService;
 
 /**
@@ -71,19 +72,23 @@ public class TypicalWebAppBeanRESTController {
 	}
 
 	@RequestMapping(path = TYPICAL_WEB_APP_BEAN_REST_CONTROLLER_REQUEST_MAPPING, method = PUT)
-	public ResponseEntity<String> addTypicalWebAppBean(ModelMap modelMap, HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse) {
+	public ResponseEntityTypicalWebAppBean addTypicalWebAppBean(ModelMap modelMap,
+			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		log.debug("Received add request");
 		String responseString = "";
-		int typicalWebAppBeanId = typicalWebAppBeanService.addTypicalWebAppBean();
-		if (typicalWebAppBeanId != -1) {
+		HttpStatus httpStatusReturn = null;
+		TypicalWebAppBean typicalWebAppBean = typicalWebAppBeanService.addTypicalWebAppBean();
+		if (typicalWebAppBean != null) {
+			httpStatusReturn = OK;
 			responseString = "Add Success";
 		} else {
+			httpStatusReturn = BAD_REQUEST;
 			responseString = "Add Error";
 		}
-		HttpStatus httpStatusReturn = (typicalWebAppBeanId != -1) ? OK : BAD_REQUEST;
-		log.info("Bean id:{}, responded:{}", typicalWebAppBeanId, httpStatusReturn);
-		return ResponseEntity.status(httpStatusReturn).body(responseString);
+		log.info("Bean:{}, responded:{}", typicalWebAppBean, httpStatusReturn);
+		httpServletResponse.setStatus(httpStatusReturn.value());
+
+		return new ResponseEntityTypicalWebAppBean(typicalWebAppBean, httpStatusReturn);
 	}
 
 	@RequestMapping(path = TYPICAL_WEB_APP_BEAN_REST_CONTROLLER_REQUEST_MAPPING, method = GET)

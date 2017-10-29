@@ -59,18 +59,18 @@ public class TypicalWebAppBeanServiceImpl extends TypicalWebAppSourceBean implem
 	 * addTypicalWebAppBean()
 	 */
 	@Override
-	public int addTypicalWebAppBean() {
+	public TypicalWebAppBean addTypicalWebAppBean() {
 		TypicalWebAppBean typicalWebAppBean = new TypicalWebAppBean(randomString(50), randomPositiveNumber(9),
 				randomPastDate());
 		File fileTypicalWebAppBean = fileTypicalWebAppBean(typicalWebAppBean.getTypicalWebAppBeanId());
-		log.debug("{} already exists? {}", typicalWebAppBean.getTypicalWebAppBeanId(), fileTypicalWebAppBean.exists());
+		log.debug("{} already exists?: {}", typicalWebAppBean.getTypicalWebAppBeanId(), fileTypicalWebAppBean.exists());
 		try {
 			writeTypicalWebAppBeanToFile(typicalWebAppBean, fileTypicalWebAppBean);
 			log.info("TypicalWebAppBean created with id: {}", typicalWebAppBean.getTypicalWebAppBeanId());
-			return typicalWebAppBean.getTypicalWebAppBeanId();
+			return typicalWebAppBean;
 		} catch (IOException exception) {
 			log.error(exceptionStactTraceAsString(exception));
-			return -1;
+			return null;
 		}
 
 	}

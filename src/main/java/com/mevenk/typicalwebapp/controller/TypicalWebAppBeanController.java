@@ -3,9 +3,14 @@
  */
 package com.mevenk.typicalwebapp.controller;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppControllerConfig.PARAM_TYPICAL_WEB_APP_BEAN_ID;
-import static com.mevenk.typicalwebapp.config.TypicalWebAppControllerConfig.TYPICAL_WEB_APP_BEAN_CONTROLLER_REQUEST_MAPPING;
+import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService.ADD_ERROR;
+import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService.ADD_SUCCESS;
+import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService.AVAILABLE;
+import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService.NOT_AVAILABLE;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.PARAM_TYPICAL_WEB_APP_BEAN_ID;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_BEAN_CONTROLLER_REQUEST_MAPPING;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerResponseConfig.headerTypicalWebAppBean;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -28,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mevenk.typicalwebapp.bean.TypicalWebAppBean;
+import com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService;
+import com.mevenk.typicalwebapp.controller.response.ResponseEntityTypicalWebAppBean;
 import com.mevenk.typicalwebapp.service.TypicalWebAppBeanService;
 
 /**
@@ -70,32 +77,45 @@ public class TypicalWebAppBeanController {
 	}
 
 	@RequestMapping(path = TYPICAL_WEB_APP_BEAN_CONTROLLER_REQUEST_MAPPING, method = PUT)
-	public @ResponseBody String addTypicalWebAppBean(ModelMap modelMap, HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse) {
+	public @ResponseBody ResponseEntityTypicalWebAppBean addTypicalWebAppBean(ModelMap modelMap,
+			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		log.debug("Received add request");
-		String responseString = "";
-		int typicalWebAppBeanId = typicalWebAppBeanService.addTypicalWebAppBean();
-		if (typicalWebAppBeanId != -1) {
-			responseString = "Add Success";
+		TypicalWebAppBeanInvocationService typicalWebAppBeanInvocationService = null;
+		HttpStatus httpStatusReturn = null;
+		TypicalWebAppBean typicalWebAppBean = typicalWebAppBeanService.addTypicalWebAppBean();
+		if (typicalWebAppBean != null) {
+			httpStatusReturn = OK;
+			typicalWebAppBeanInvocationService = ADD_SUCCESS;
 		} else {
-			responseString = "Add Error";
+			httpStatusReturn = BAD_REQUEST;
+			typicalWebAppBeanInvocationService = ADD_ERROR;
 		}
-		HttpStatus httpStatusReturn = (typicalWebAppBeanId != -1) ? OK : BAD_REQUEST;
-		log.info("Bean id:{}, responded:{}", typicalWebAppBeanId, httpStatusReturn);
+		log.info("Bean:{}, responded:{}", typicalWebAppBean, httpStatusReturn);
 		httpServletResponse.setStatus(httpStatusReturn.value());
-		return responseString;
+
+		return new ResponseEntityTypicalWebAppBean(typicalWebAppBean,
+				headerTypicalWebAppBean(typicalWebAppBeanInvocationService), httpStatusReturn);
 	}
 
 	@RequestMapping(path = TYPICAL_WEB_APP_BEAN_CONTROLLER_REQUEST_MAPPING, method = GET)
-	public @ResponseBody TypicalWebAppBean getTypicalWebAppBean(ModelMap modelMap,
+	public @ResponseBody ResponseEntityTypicalWebAppBean getTypicalWebAppBean(ModelMap modelMap,
 			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			@RequestParam(name = PARAM_TYPICAL_WEB_APP_BEAN_ID, required = true) int typicalWebAppBeanId) {
 		log.debug("Received retreive request for {}", typicalWebAppBeanId);
 		addParametersToCorrelationId(typicalWebAppBeanId);
 		TypicalWebAppBean typicalWebAppBean = typicalWebAppBeanService.getTypicalWebAppBean(typicalWebAppBeanId);
-		HttpStatus httpStatusReturn = typicalWebAppBean != null ? OK : NOT_FOUND;
+		TypicalWebAppBeanInvocationService typicalWebAppBeanInvocationService = null;
+		HttpStatus httpStatusReturn = null;
+		if (typicalWebAppBean != null) {
+			httpStatusReturn = OK;
+			typicalWebAppBeanInvocationService = AVAILABLE;
+		} else {
+			httpStatusReturn = NOT_FOUND;
+			typicalWebAppBeanInvocationService = NOT_AVAILABLE;
+		}
 		log.info("Bean id: {}; Bean:{}; Responded:{}", typicalWebAppBeanId, typicalWebAppBean, httpStatusReturn);
 		httpServletResponse.setStatus(httpStatusReturn.value());
-		return typicalWebAppBean;
+		return new ResponseEntityTypicalWebAppBean(typicalWebAppBean,
+				headerTypicalWebAppBean(typicalWebAppBeanInvocationService), httpStatusReturn);
 	}
 }

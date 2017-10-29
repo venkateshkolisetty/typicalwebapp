@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mevenk.typicalwebapp.config;
+package com.mevenk.typicalwebapp.controller.config;
 
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SLASH;
 
@@ -11,9 +11,9 @@ import com.mevenk.typicalwebapp.exception.DisgracedConstructorInvocationExceptio
  * @author Venkatesh
  *
  */
-public final class TypicalWebAppControllerConfig {
+public final class TypicalWebAppControllerRequestConfig {
 
-	private TypicalWebAppControllerConfig() {
+	private TypicalWebAppControllerRequestConfig() {
 		throw new DisgracedConstructorInvocationException(this.getClass());
 	}
 
@@ -34,5 +34,12 @@ public final class TypicalWebAppControllerConfig {
 			+ TYPICAL_WEB_APP_SOAP_WEB_SERVICE_REQUEST_MAPPING + SLASH
 			+ TYPICAL_WEB_APP_BEAN_CONTROLLER_REQUEST_MAPPING;
 
+	public static final String TYPICAL_WEB_APP_REQUEST_MAPPING_WELCOME = "welcome";
+	public static final String TYPICAL_WEB_APP_REQUEST_MAPPING_TEST_REQUEST_RESPONSE = "testRequestResponse";
+	public static final String TYPICAL_WEB_APP_REQUEST_MAPPING_SLEEP_REQUEST = "sleepRequest";
+
+	public static final String PARAM_TEST_REQUEST_RESPONSE_PARAMETER_1 = "testRequestResponseParameter1";
+	public static final String PARAM_SLEEP_TIME_IN_SECONDS = "sleepTimeInSeconds";
 	public static final String PARAM_TYPICAL_WEB_APP_BEAN_ID = "typicalWebAppBeanId";
+
 }

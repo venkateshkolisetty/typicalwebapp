@@ -21,7 +21,9 @@ public final class TypicalWebAppConstants {
 
 	public static final String LINE_SEPARATOR = System.lineSeparator();
 	public static final String FILE_SEPARATOR = File.separator;
-
+	
+	public static final String ERROR = "ERROR";
+	
 	public static final String SLASH = "/";
 	public static final String BACKSLASH = "\\";
 	public static final String ASTERISK = "*";

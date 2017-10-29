@@ -13,7 +13,7 @@ public interface TypicalWebAppBeanService {
 
 	boolean isTypicalWebAppBeanAvailable(int typicalWebAppBeanId);
 
-	int addTypicalWebAppBean();
+	TypicalWebAppBean addTypicalWebAppBean();
 
 	TypicalWebAppBean getTypicalWebAppBean(int typicalWebAppBeanId);
 

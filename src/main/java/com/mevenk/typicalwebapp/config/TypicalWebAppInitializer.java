@@ -1,6 +1,6 @@
 package com.mevenk.typicalwebapp.config;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppControllerConfig.TYPICAL_WEB_APP_REST_WEB_SERVICE_REQUEST_MAPPING;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_REST_WEB_SERVICE_REQUEST_MAPPING;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.ASTERISK;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SLASH;
 

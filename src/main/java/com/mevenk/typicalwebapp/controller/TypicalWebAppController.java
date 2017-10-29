@@ -5,10 +5,20 @@ package com.mevenk.typicalwebapp.controller;
 
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.THREAD_CONTEXT_KEY;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.PARAM_SLEEP_TIME_IN_SECONDS;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.PARAM_TEST_REQUEST_RESPONSE_PARAMETER_1;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_REQUEST_MAPPING_SLEEP_REQUEST;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_REQUEST_MAPPING_TEST_REQUEST_RESPONSE;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_REQUEST_MAPPING_WELCOME;
+import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerResponseConfig.TYPICAL_WEB_APP_RESPONSE_VIEW_WELCOME;
+import static com.mevenk.typicalwebapp.controller.response.ResponseEntityString.responseEntityStringError;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.ASTERISK;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SLASH;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SPACE_AROUND_SINGLE_COLUN;
+import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.appendSuffixPoundSign;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.formatDateToString;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.io.IOException;
@@ -27,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mevenk.typicalwebapp.controller.response.ResponseEntityString;
 import com.mevenk.typicalwebapp.service.ClientUtilService;
 
 /**
@@ -47,7 +58,7 @@ public class TypicalWebAppController {
 
 		String sessionId = httpServletRequest.getSession().getId();
 
-		ThreadContext.put(THREAD_CONTEXT_KEY, "*#" + sessionId);
+		ThreadContext.put(THREAD_CONTEXT_KEY, appendSuffixPoundSign(ASTERISK) + sessionId);
 
 		log.trace("Session Id : {}", sessionId);
 
@@ -60,40 +71,42 @@ public class TypicalWebAppController {
 
 		log.debug("Redirecting to Welcome Page....");
 
-		httpServletResponse.sendRedirect("welcome");
+		httpServletResponse.sendRedirect(TYPICAL_WEB_APP_REQUEST_MAPPING_WELCOME);
 
 	}
 
-	@RequestMapping(value = "welcome", method = GET)
+	@RequestMapping(value = TYPICAL_WEB_APP_REQUEST_MAPPING_WELCOME, method = GET)
 	public String welcome(ModelMap modelMap, HttpServletRequest httpServletRequest) {
 
-		ThreadContext.put(THREAD_CONTEXT_KEY, "welcome#" + httpServletRequest.getSession().getId());
+		ThreadContext.put(THREAD_CONTEXT_KEY, appendSuffixPoundSign(TYPICAL_WEB_APP_REQUEST_MAPPING_WELCOME)
+				+ httpServletRequest.getSession().getId());
 
 		log.debug("Welcome Page !!");
 
 		clientUtilService.logRequestDetails(httpServletRequest);
 
 		modelMap.addAttribute("greeting", "Hello, Welcome to Spring Project");
-		return "welcome";
+		return TYPICAL_WEB_APP_RESPONSE_VIEW_WELCOME;
 
 	}
 
-	@RequestMapping(value = "testRequestResponse", method = GET)
-	public @ResponseBody String testRequestResponse(ModelMap modelMap, HttpServletRequest httpServletRequest,
-			@RequestParam(name = "testRequestResponseParameter1") String testRequestResponseParameter1) {
+	@RequestMapping(value = TYPICAL_WEB_APP_REQUEST_MAPPING_TEST_REQUEST_RESPONSE, method = GET)
+	public @ResponseBody ResponseEntityString testRequestResponse(ModelMap modelMap,
+			HttpServletRequest httpServletRequest,
+			@RequestParam(name = PARAM_TEST_REQUEST_RESPONSE_PARAMETER_1) String testRequestResponseParameter1) {
 
 		log.info("Request Parameter : {}", testRequestResponseParameter1);
 
 		clientUtilService.logRequestDetails(httpServletRequest);
 
-		return "Response for calling testRequestResponse with parameter" + SPACE_AROUND_SINGLE_COLUN
-				+ testRequestResponseParameter1;
+		return new ResponseEntityString("Response for calling testRequestResponse with parameter"
+				+ SPACE_AROUND_SINGLE_COLUN + testRequestResponseParameter1, OK);
 
 	}
 
-	@RequestMapping(value = "sleepRequest", method = GET)
-	public @ResponseBody String sleepRequest(ModelMap modelMap, HttpServletRequest httpServletRequest,
-			@RequestParam(name = "sleepTimeInSeconds") int sleepTimeInSeconds) {
+	@RequestMapping(value = TYPICAL_WEB_APP_REQUEST_MAPPING_SLEEP_REQUEST, method = GET)
+	public @ResponseBody ResponseEntityString sleepRequest(ModelMap modelMap, HttpServletRequest httpServletRequest,
+			@RequestParam(name = PARAM_SLEEP_TIME_IN_SECONDS) int sleepTimeInSeconds) {
 
 		addParametersToCorrelationId(sleepTimeInSeconds);
 
@@ -108,10 +121,11 @@ public class TypicalWebAppController {
 			Thread.sleep(sleepTimeInSeconds * 1_000L);
 		} catch (InterruptedException interruptedException) {
 			Thread.currentThread().interrupt();
-			return "ERROR";
+			return responseEntityStringError();
 		}
 
-		return "Received : " + requestReceivedDateString + " :: Responded : " + formatDateToString(new Date());
+		return new ResponseEntityString(
+				"Received : " + requestReceivedDateString + " :: Responded : " + formatDateToString(new Date()), OK);
 	}
 
 }

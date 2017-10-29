@@ -173,4 +173,8 @@ public abstract class TypicalWebAppUtil {
 		return false;
 	}
 
+	public static synchronized String appendSuffixPoundSign(String prefix) {
+		return prefix + POUND_SIGN;
+	}
+
 }
