@@ -13,6 +13,9 @@ import com.mevenk.typicalwebapp.exception.DisgracedConstructorInvocationExceptio
  */
 public final class TypicalWebAppConstants {
 
+	public static final String TYPICAL_WEB_APP_BASE_PACKAGES = "com.mevenk.typicalwebapp";
+	public static final String PROPERTY_SOURCE_TYPICAL_WEB_APP_PROPERTIES_FILE_SOURCE = "${typicalWebappPropertiesFileSource}";
+
 	private TypicalWebAppConstants() {
 		throw new DisgracedConstructorInvocationException(this.getClass());
 	}
@@ -21,9 +24,9 @@ public final class TypicalWebAppConstants {
 
 	public static final String LINE_SEPARATOR = System.lineSeparator();
 	public static final String FILE_SEPARATOR = File.separator;
-	
+
 	public static final String ERROR = "ERROR";
-	
+
 	public static final String SLASH = "/";
 	public static final String BACKSLASH = "\\";
 	public static final String ASTERISK = "*";

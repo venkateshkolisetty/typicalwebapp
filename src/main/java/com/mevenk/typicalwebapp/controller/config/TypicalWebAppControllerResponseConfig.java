@@ -2,6 +2,8 @@ package com.mevenk.typicalwebapp.controller.config;
 
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -9,6 +11,8 @@ import com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocati
 import com.mevenk.typicalwebapp.exception.DisgracedConstructorInvocationException;
 
 public final class TypicalWebAppControllerResponseConfig {
+
+	private static final Logger log = LogManager.getLogger(TypicalWebAppControllerResponseConfig.class);
 
 	private TypicalWebAppControllerResponseConfig() {
 		throw new DisgracedConstructorInvocationException(this.getClass());
@@ -35,8 +39,14 @@ public final class TypicalWebAppControllerResponseConfig {
 			TypicalWebAppBeanInvocationService typicalWebAppBeanInvocationService) {
 		MultiValueMap<String, String> headersTypicalWebAppBen = new LinkedMultiValueMap<>();
 		headersTypicalWebAppBen.addAll(headersTypicalWebAppGeneral());
-		headersTypicalWebAppBen.add(typicalWebAppBeanInvocationService.getHeaderParam(),
-				typicalWebAppBeanInvocationService.value());
+		String headerParam = typicalWebAppBeanInvocationService.getHeaderParam();
+		String headerValue = typicalWebAppBeanInvocationService.headerValue();
+		if (headerParam == null || headerValue == null) {
+			log.error("NULL received for {} - Header[{}];Value[{}]", TypicalWebAppBeanInvocationService.class,
+					headerParam, headerValue);
+			return headersTypicalWebAppBen;
+		}
+		headersTypicalWebAppBen.add(headerParam, headerValue);
 		return headersTypicalWebAppBen;
 	}
 

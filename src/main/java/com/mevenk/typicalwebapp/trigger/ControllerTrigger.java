@@ -70,8 +70,8 @@ public class ControllerTrigger extends TypicalWebAppBaseTrigger {
 
 	@AfterThrowing(pointcut = POINT_CUT_METHODS_WITH_REQUEST_MAPPING_ANNOTATION, throwing = "exception")
 	protected void logIfExceptionControllerRequest(JoinPoint joinPoint, Exception exception) {
-		log.log(TRIGGER, "Trigger Exception " + joinPointFormatted + exception.getMessage());
-		log.error("Trigger Exception " + joinPointFormatted + exceptionStactTraceAsString(exception));
+		log.log(TRIGGER, "Trigger Exception: {} - {}", joinPointFormatted, exception.getMessage());
+		log.error("Trigger Exception: {} - {} ", joinPointFormatted, exceptionStactTraceAsString(exception));
 	}
 
 	// *******************************methodsWithRequestMappingAnnotation-END*******************************

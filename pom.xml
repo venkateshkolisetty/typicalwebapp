@@ -158,6 +158,10 @@
 			<version>${springframework.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-web</artifactId> 
+			<version>4.2.3.RELEASE</version> </dependency> -->
+
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -165,6 +169,15 @@
 			<version>${springframework.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.sun.jersey.contribs/jersey-spring -->
+		<!-- <dependency> <groupId>com.sun.jersey.contribs</groupId> <artifactId>jersey-spring</artifactId> 
+			<version>1.19.4</version> <exclusions> <exclusion> <groupId>org.springframework</groupId> 
+			<artifactId>spring</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
+			<artifactId>spring-core</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
+			<artifactId>spring-web</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
+			<artifactId>spring-beans</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
+			<artifactId>spring-context</artifactId> </exclusion> </exclusions> </dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider -->
 		<dependency>
@@ -210,6 +223,14 @@
 		<!-- <dependency> <groupId>commons-configuration</groupId> <artifactId>commons-configuration</artifactId> 
 			<version>1.10</version> </dependency> -->
 
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/catalina -->
+		<!-- <dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>catalina</artifactId>
+			<version>6.0.53</version>
+			<scope>provided</scope>
+		</dependency> -->
+		
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-configuration2 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>

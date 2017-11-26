@@ -7,7 +7,6 @@ import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.CONFIG;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
@@ -25,7 +24,7 @@ public class TypicalWebAppBeanPostProcessor implements BeanPostProcessor {
 	 * postProcessBeforeInitialization(java.lang.Object, java.lang.String)
 	 */
 	@Override
-	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+	public Object postProcessBeforeInitialization(Object bean, String beanName) {
 		log.log(CONFIG, "Initializing {}", bean);
 		return bean;
 	}
@@ -37,7 +36,7 @@ public class TypicalWebAppBeanPostProcessor implements BeanPostProcessor {
 	 * postProcessAfterInitialization(java.lang.Object, java.lang.String)
 	 */
 	@Override
-	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+	public Object postProcessAfterInitialization(Object bean, String beanName) {
 		log.log(CONFIG, "Initialized {}", bean);
 		return bean;
 	}

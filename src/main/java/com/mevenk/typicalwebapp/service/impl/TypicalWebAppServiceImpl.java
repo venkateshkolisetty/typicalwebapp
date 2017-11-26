@@ -11,11 +11,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mevenk.typicalwebapp.config.TypicalWebAppPropertiesLoader;
 import com.mevenk.typicalwebapp.config.TypicalWebAppSourceBean;
 import com.mevenk.typicalwebapp.service.TypicalWebAppService;
 import com.mevenk.typicalwebapp.util.TypicalWebAppConstants;
@@ -25,13 +28,23 @@ import com.mevenk.typicalwebapp.util.TypicalWebAppUtil;
  * @author VENKATESH
  *
  */
-@Component
 public class TypicalWebAppServiceImpl extends TypicalWebAppSourceBean implements TypicalWebAppService {
 
 	private static final Logger log = LogManager.getLogger(TypicalWebAppServiceImpl.class);
 
-	String filesDirPathFromSystemProperty = System.getProperty("typicalwebappUploadedFilesDirPath");
-	String filesDirPath = filesDirPathFromSystemProperty + FILE_SEPARATOR;
+	@Autowired
+	private TypicalWebAppPropertiesLoader typicalWebAppPropertiesLoader;
+
+	String filesDirPath;
+
+	public TypicalWebAppServiceImpl(String beanName) {
+		super(beanName);
+	}
+
+	@PostConstruct
+	public void setup() {
+		filesDirPath = typicalWebAppPropertiesLoader.getTypicalwebappUploadedFilesDirPath() + FILE_SEPARATOR;
+	}
 
 	@Override
 	public FileUploadStatus uploadFile(MultipartFile uploadedFile) {

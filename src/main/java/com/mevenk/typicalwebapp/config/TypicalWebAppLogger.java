@@ -3,7 +3,6 @@
  */
 package com.mevenk.typicalwebapp.config;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppPropertiesLoader.CORRELATION_ID_DATE_FORMAT_PATTERN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.HYPHEN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.UNDERSCORE;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.SIMPLE_DATE_FORMAT_CORRELATION_ID;
@@ -11,14 +10,32 @@ import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.argumentsAsAppenda
 
 import java.util.Date;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.ThreadContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Venkatesh
  *
  */
-public abstract class TypicalWebAppLogger {
+public class TypicalWebAppLogger extends TypicalWebAppSourceBean {
+
+	@Autowired
+	private TypicalWebAppPropertiesLoader typicalWebAppPropertiesLoader;
+
+	private static int correlationIdDateFormatPatternLength;
+
+	public TypicalWebAppLogger(String beanName) {
+		super(beanName);
+	}
+
+	@PostConstruct
+	public void setup() {
+		correlationIdDateFormatPatternLength = typicalWebAppPropertiesLoader.getCorrelationIdDateFormatPattern()
+				.length();
+	}
 
 	/*
 	 * OFF 0 | FATAL 100 | ERROR 200 | WARN 300 | INFO 400 | POOLING 470 | TRIGGER
@@ -43,7 +60,7 @@ public abstract class TypicalWebAppLogger {
 
 	public static void addParametersToCorrelationId(Object... parameters) {
 		String correlationIdExisting = ThreadContext.get(THREAD_CONTEXT_KEY);
-		int lengthDateWithUnderScore = CORRELATION_ID_DATE_FORMAT_PATTERN.length() + 1;
+		int lengthDateWithUnderScore = correlationIdDateFormatPatternLength + 1;
 		int lengthExistingCorrelationId = correlationIdExisting.length();
 		String unserscoreAndDate = correlationIdExisting
 				.substring(lengthExistingCorrelationId - lengthDateWithUnderScore);

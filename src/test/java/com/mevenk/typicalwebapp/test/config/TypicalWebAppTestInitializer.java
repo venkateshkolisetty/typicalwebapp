@@ -23,16 +23,6 @@ import com.mevenk.typicalwebapp.service.TypicalWebAppService;
 @ContextConfiguration(classes = { TypicalWebAppRootConfiguration.class, TypicalWebAppServletConfiguration.class })
 public class TypicalWebAppTestInitializer {
 
-	private static final String TYPICAL_WEB_APP_PROPERTIES_FILE_SOURCE = "file:E:/work/temporary/TypicalWebapp/config/typicalwebapp.properties";
-	private static final String TEST_FILES_UPLOAD_DIR = "tests/resources/filesUploadDir";
-	private static final String TEST_LOGS_DIR = "tests/testLogs";
-
-	static {
-		System.setProperty("typicalWebappPropertiesFileSource", TYPICAL_WEB_APP_PROPERTIES_FILE_SOURCE);
-		System.setProperty("typicalwebappUploadedFilesDirPath", TEST_FILES_UPLOAD_DIR);
-		System.setProperty("typicalWebappLogsDirectoryLoaction", TEST_LOGS_DIR);
-	}
-
 	@Autowired
 	TypicalWebAppService typicalWebAppService;
 

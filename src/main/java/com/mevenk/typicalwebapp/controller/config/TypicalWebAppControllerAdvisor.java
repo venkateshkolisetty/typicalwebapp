@@ -11,7 +11,6 @@ public class TypicalWebAppControllerAdvisor {
 
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public String handle(Exception exception) {
-
 		return TYPICAL_WEB_APP_RESPONSE_VIEW_404;
 	}
 }

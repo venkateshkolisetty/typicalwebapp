@@ -7,6 +7,7 @@ import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanI
 import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService.ADD_SUCCESS;
 import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService.AVAILABLE;
 import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService.NOT_AVAILABLE;
+import static com.mevenk.typicalwebapp.bean.TypicalWebAppErrorBean.TypicalWebAppErrorBeanError.BEAN_NOT_AVAILABLE;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.PARAM_TYPICAL_WEB_APP_BEAN_ID;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_BEAN_CONTROLLER_REQUEST_MAPPING;
@@ -28,12 +29,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mevenk.typicalwebapp.bean.TypicalWebAppBean;
 import com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService;
+import com.mevenk.typicalwebapp.bean.TypicalWebAppErrorBean;
+import com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerAdvisor;
 import com.mevenk.typicalwebapp.controller.response.ResponseEntityTypicalWebAppBean;
 import com.mevenk.typicalwebapp.service.TypicalWebAppBeanService;
 
@@ -42,6 +46,7 @@ import com.mevenk.typicalwebapp.service.TypicalWebAppBeanService;
  *
  */
 @Controller()
+@ControllerAdvice(assignableTypes = TypicalWebAppControllerAdvisor.class)
 public class TypicalWebAppBeanController {
 
 	private static final Logger log = LogManager.getLogger(TypicalWebAppBeanController.class);
@@ -112,6 +117,7 @@ public class TypicalWebAppBeanController {
 		} else {
 			httpStatusReturn = NOT_FOUND;
 			typicalWebAppBeanInvocationService = NOT_AVAILABLE;
+			typicalWebAppBean = new TypicalWebAppErrorBean(typicalWebAppBeanId, BEAN_NOT_AVAILABLE);
 		}
 		log.info("Bean id: {}; Bean:{}; Responded:{}", typicalWebAppBeanId, typicalWebAppBean, httpStatusReturn);
 		httpServletResponse.setStatus(httpStatusReturn.value());

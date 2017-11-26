@@ -11,6 +11,7 @@ import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.randomPastDate;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.randomPositiveNumber;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.randomString;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.deleteIfExists;
 import static org.apache.commons.io.FileUtils.writeStringToFile;
 
 import java.io.File;
@@ -20,12 +21,12 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.mevenk.typicalwebapp.bean.TypicalWebAppBean;
+import com.mevenk.typicalwebapp.config.TypicalWebAppPropertiesLoader;
 import com.mevenk.typicalwebapp.config.TypicalWebAppSourceBean;
 import com.mevenk.typicalwebapp.service.TypicalWebAppBeanService;
 
@@ -33,13 +34,16 @@ import com.mevenk.typicalwebapp.service.TypicalWebAppBeanService;
  * @author Venkatesh
  *
  */
-@Component
 public class TypicalWebAppBeanServiceImpl extends TypicalWebAppSourceBean implements TypicalWebAppBeanService {
 
 	private static final Logger log = LogManager.getLogger(TypicalWebAppBeanServiceImpl.class);
 
-	@Value("${typicalWebAppBeansDataSourceLocation}")
-	private String typicalWebAppBeansDataSourceLocation;
+	@Autowired
+	private TypicalWebAppPropertiesLoader typicalWebAppPropertiesLoader;
+
+	public TypicalWebAppBeanServiceImpl(String beanName) {
+		super(beanName);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -128,21 +132,33 @@ public class TypicalWebAppBeanServiceImpl extends TypicalWebAppSourceBean implem
 	 */
 	@Override
 	public boolean deleteTypicalWebAppBean(int typicalWebAppBeanId) {
-		return fileTypicalWebAppBean(typicalWebAppBeanId).delete();
+		try {
+			boolean isFileDeleted = deleteIfExists(fileTypicalWebAppBean(typicalWebAppBeanId).toPath());
+			if (isFileDeleted) {
+				return true;
+			} else {
+				log.error("Error deleting {}. File does not exist!", typicalWebAppBeanId);
+				return false;
+			}
+		} catch (IOException ioException) {
+			log.error("Error deleting {}", typicalWebAppBeanId);
+			log.error(exceptionStactTraceAsString(ioException));
+			return false;
+		}
+
 	}
 
 	private File fileTypicalWebAppBean(int typicalWebAppBeanId) {
-		return new File(typicalWebAppBeansDataSourceLocation + FILE_SEPARATOR + typicalWebAppBeanId + EXT_JSON);
+		return new File(typicalWebAppPropertiesLoader.getTypicalWebAppBeansDataSourceLocation() + FILE_SEPARATOR
+				+ typicalWebAppBeanId + EXT_JSON);
 	}
 
-	private TypicalWebAppBean typicalWebAppBeanFromJson(int typicalWebAppBeanId)
-			throws JsonSyntaxException, JsonIOException, FileNotFoundException {
+	private TypicalWebAppBean typicalWebAppBeanFromJson(int typicalWebAppBeanId) throws FileNotFoundException {
 		return gsonTypicalWebAppBean.fromJson(new FileReader(fileTypicalWebAppBean(typicalWebAppBeanId)),
 				TypicalWebAppBean.class);
 	}
 
-	private TypicalWebAppBean typicalWebAppBeanFromJson(File fileTypicalWebAppBean)
-			throws JsonSyntaxException, JsonIOException, FileNotFoundException {
+	private TypicalWebAppBean typicalWebAppBeanFromJson(File fileTypicalWebAppBean) throws FileNotFoundException {
 		return gsonTypicalWebAppBean.fromJson(new FileReader(fileTypicalWebAppBean), TypicalWebAppBean.class);
 	}
 

@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.mevenk.typicalwebapp.exception.DisgracedInvocationException;
-import com.sun.xml.internal.txw2.annotation.XmlAttribute;
 
 /**
  * @author Venkatesh
@@ -32,7 +32,7 @@ public class TypicalWebAppBean implements Serializable {
 	 */
 	private static final transient long serialVersionUID = 5640900689788374670L;
 
-	private static final transient String TYPICALWEBAPPBEAN = "TypicalWebAppBean";
+	private static final transient String TYPICALWEBAPPBEAN_NAME = "TypicalWebAppBean";
 
 	static final transient String TYPICAL_WEB_APP_BEAN_XML_ROOT_ELEMENT_NAME = "typicalwebappbean";
 
@@ -40,59 +40,71 @@ public class TypicalWebAppBean implements Serializable {
 			.serializeNulls().setPrettyPrinting().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE_WITH_SPACES)
 			.excludeFieldsWithoutExposeAnnotation().create();
 
-	private static final transient String HEADER_PARAM_STATUS = TYPICALWEBAPPBEAN + " Status";
-	private static final transient String HEADER_PARAM_AVAILABLE = TYPICALWEBAPPBEAN + " Available";
-	private static final transient String HEADER_PARAM_ADD = TYPICALWEBAPPBEAN + " Add";
-	private static final transient String HEADER_PARAM_UPDATE = TYPICALWEBAPPBEAN + " Update";
-	private static final transient String HEADER_PARAM_DELETE = TYPICALWEBAPPBEAN + " Delete";
+	private static final transient String HEADER_PARAM_STATUS = TYPICALWEBAPPBEAN_NAME + " Status";
+	private static final transient String HEADER_PARAM_AVAILABLE = TYPICALWEBAPPBEAN_NAME + " Available";
+	private static final transient String HEADER_PARAM_ADD = TYPICALWEBAPPBEAN_NAME + " Add";
+	private static final transient String HEADER_PARAM_UPDATE = TYPICALWEBAPPBEAN_NAME + " Update";
+	private static final transient String HEADER_PARAM_DELETE = TYPICALWEBAPPBEAN_NAME + " Delete";
 
 	public enum TypicalWebAppBeanInvocationService {
 		SUCCESS, ERROR, AVAILABLE, NOT_AVAILABLE, ADD_SUCCESS, ADD_ERROR, UPDATE_SUCCESS, UPDATE_ERROR, DELETE_SUCCESS, DELETE_ERROR;
 
 		private String headerParam;
-
-		public String value() {
-			switch (this) {
-			case SUCCESS:
-				headerParam = HEADER_PARAM_STATUS;
-				return "Success";
-			case ERROR:
-				headerParam = HEADER_PARAM_STATUS;
-				return "Error";
-			case AVAILABLE:
-				headerParam = HEADER_PARAM_AVAILABLE;
-				return "Available";
-			case NOT_AVAILABLE:
-				headerParam = HEADER_PARAM_AVAILABLE;
-				return "Not Available";
-			case ADD_SUCCESS:
-				headerParam = HEADER_PARAM_ADD;
-				return "Add Success";
-			case ADD_ERROR:
-				headerParam = HEADER_PARAM_ADD;
-				return "Add Error";
-			case UPDATE_SUCCESS:
-				headerParam = HEADER_PARAM_UPDATE;
-				return "Update Success";
-			case UPDATE_ERROR:
-				headerParam = HEADER_PARAM_UPDATE;
-				return "Update Error";
-			case DELETE_SUCCESS:
-				headerParam = HEADER_PARAM_DELETE;
-				return "Delete Success";
-			case DELETE_ERROR:
-				headerParam = HEADER_PARAM_DELETE;
-				return "Delete Error";
-			default:
-				throw new DisgracedInvocationException();
-			}
-		}
+		private String value;
 
 		/**
 		 * @return the headerParam
 		 */
 		public String getHeaderParam() {
+			switch (this) {
+			case SUCCESS:
+				headerParam = HEADER_PARAM_STATUS;
+				value = "Success";
+				break;
+			case ERROR:
+				headerParam = HEADER_PARAM_STATUS;
+				value = "Error";
+				break;
+			case AVAILABLE:
+				headerParam = HEADER_PARAM_AVAILABLE;
+				value = "Available";
+				break;
+			case NOT_AVAILABLE:
+				headerParam = HEADER_PARAM_AVAILABLE;
+				value = "Not Available";
+				break;
+			case ADD_SUCCESS:
+				headerParam = HEADER_PARAM_ADD;
+				value = "Add Success";
+				break;
+			case ADD_ERROR:
+				headerParam = HEADER_PARAM_ADD;
+				value = "Add Error";
+				break;
+			case UPDATE_SUCCESS:
+				headerParam = HEADER_PARAM_UPDATE;
+				value = "Update Success";
+				break;
+			case UPDATE_ERROR:
+				headerParam = HEADER_PARAM_UPDATE;
+				value = "Update Error";
+				break;
+			case DELETE_SUCCESS:
+				headerParam = HEADER_PARAM_DELETE;
+				value = "Delete Success";
+				break;
+			case DELETE_ERROR:
+				headerParam = HEADER_PARAM_DELETE;
+				value = "Delete Error";
+				break;
+			default:
+				throw new DisgracedInvocationException();
+			}
 			return headerParam;
+		}
+
+		public String headerValue() {
+			return value;
 		}
 	}
 
@@ -118,6 +130,10 @@ public class TypicalWebAppBean implements Serializable {
 		this.randomString = randomString;
 		this.randomInteger = randomInteger;
 		this.randomDate = randomDate;
+	}
+
+	protected TypicalWebAppBean(int typicalWebAppBeanId) {
+		this.typicalWebAppBeanId = typicalWebAppBeanId;
 	}
 
 	/**
