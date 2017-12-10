@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mevenk.typicalwebapp.pooling;
+package com.mevenk.typicalwebapp.polling;
 
 /**
  * @author Venkatesh
@@ -9,6 +9,6 @@ package com.mevenk.typicalwebapp.pooling;
  */
 public interface TimelyDateLogger {
 
-	public void timelyDatePoolingFromCron();
+	public void timelyDatePollingFromCron();
 
 }

@@ -38,8 +38,8 @@ public class TypicalWebAppPropertiesLoader extends TypicalWebAppSourceBean {
 	@Value("${miscDateFormatPattern}")
 	private String miscDateFormatPattern;
 
-	@Value("${datePoolingCronExpression}")
-	private String datePoolingCronExpression;
+	@Value("${datePollingCronExpression}")
+	private String datePollingCronExpression;
 
 	@Value("${typicalWebAppBeansDataSourceLocation}")
 	private String typicalWebAppBeansDataSourceLocation;
@@ -97,10 +97,10 @@ public class TypicalWebAppPropertiesLoader extends TypicalWebAppSourceBean {
 	}
 
 	/**
-	 * @return the datePoolingCronExpression
+	 * @return the datePollingCronExpression
 	 */
-	public String getDatePoolingCronExpression() {
-		return datePoolingCronExpression;
+	public String getDatePollingCronExpression() {
+		return datePollingCronExpression;
 	}
 
 	/**

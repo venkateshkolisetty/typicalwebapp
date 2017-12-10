@@ -38,14 +38,14 @@ public class TypicalWebAppLogger extends TypicalWebAppSourceBean {
 	}
 
 	/*
-	 * OFF 0 | FATAL 100 | ERROR 200 | WARN 300 | INFO 400 | POOLING 470 | TRIGGER
+	 * OFF 0 | FATAL 100 | ERROR 200 | WARN 300 | INFO 400 | POLLING 470 | TRIGGER
 	 * 490 | DEBUG 500 | CONFIG 590 | TRACE 600 | ALL Integer.MAX_VALUE
 	 */
 
 	public static final String THREAD_CONTEXT_KEY = "TypicalWebAppCorrelationId";
 
-	private static final String LOG_LEVEL_POOLING = "POOLING";
-	public static final Level POOLING = Level.forName(LOG_LEVEL_POOLING, 470);
+	private static final String LOG_LEVEL_POLLING = "POLLING";
+	public static final Level POLLING = Level.forName(LOG_LEVEL_POLLING, 470);
 
 	private static final String LOG_LEVEL_TRIGGER = "TRIGGER";
 	public static final Level TRIGGER = Level.forName(LOG_LEVEL_TRIGGER, 490);

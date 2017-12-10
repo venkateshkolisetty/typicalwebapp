@@ -25,9 +25,9 @@
 		</Property>
 		<Property name="htmlLogFileName">TypicalWebappLog.html</Property>
 
-		<Property name="poolingLogFilesDir">${typicalWebappLogsDir}/poolingLogs
+		<Property name="pollingLogFilesDir">${typicalWebappLogsDir}/pollingLogs
 		</Property>
-		<Property name="poolingLogFileName">TypicalWebappPooling.log</Property>
+		<Property name="pollingLogFileName">TypicalWebappPolling.log</Property>
 
 		<Property name="triggerLogFilesDir">${typicalWebappLogsDir}/triggerLogs
 		</Property>
@@ -147,10 +147,10 @@
 		</RollingFile>
 
 
-		<!-- poolingLogRollingFile -->
-		<RollingFile name="poolingLogRollingFile"
-			fileName="${poolingLogFilesDir}/${poolingLogFileName}"
-			filePattern="${poolingLogFilesDir}/${poolingLogFileName}_%d{yyyy-MM-dd}_%i">
+		<!-- pollingLogRollingFile -->
+		<RollingFile name="pollingLogRollingFile"
+			fileName="${pollingLogFilesDir}/${pollingLogFileName}"
+			filePattern="${pollingLogFilesDir}/${pollingLogFileName}_%d{yyyy-MM-dd}_%i">
 
 			<PatternLayout pattern="${typicalWebappLogPatternLayout}" />
 
@@ -161,7 +161,7 @@
 			</Policies>
 
 			<DefaultRolloverStrategy>
-				<Delete basePath="${poolingLogFilesDir}" maxDepth="1">
+				<Delete basePath="${pollingLogFilesDir}" maxDepth="1">
 					<IfLastModified age="1M" />
 				</Delete>
 			</DefaultRolloverStrategy>
@@ -265,10 +265,10 @@
 		</Logger>
 
 		<!-- Independent of other loggers. -->
-		<Logger name="com.mevenk.typicalwebapp.pooling" level="POOLING"
+		<Logger name="com.mevenk.typicalwebapp.polling" level="POLLING"
 			additivity="false">
 			<AppenderRef ref="errorLogRollingFile" level="ERROR" />
-			<AppenderRef ref="poolingLogRollingFile" level="POOLING" />
+			<AppenderRef ref="pollingLogRollingFile" level="POLLING" />
 		</Logger>
 
 		<!-- Independent of other loggers. -->
@@ -284,6 +284,7 @@
 
 		<Root level="ALL">
 			<AppenderRef ref="Console" />
+			<AppenderRef ref="Socket" />
 		</Root>
 
 	</Loggers>

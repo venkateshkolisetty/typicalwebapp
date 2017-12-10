@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
@@ -22,12 +21,6 @@ import com.mevenk.typicalwebapp.service.TypicalWebAppBeanService;
 import com.mevenk.typicalwebapp.service.TypicalWebAppService;
 import com.mevenk.typicalwebapp.service.impl.TypicalWebAppBeanServiceImpl;
 import com.mevenk.typicalwebapp.service.impl.TypicalWebAppServiceImpl;
-import com.mevenk.typicalwebapp.trigger.ControllerTrigger;
-import com.mevenk.typicalwebapp.trigger.FileActionsTrigger;
-import com.mevenk.typicalwebapp.trigger.PoolingTrigger;
-import com.mevenk.typicalwebapp.trigger.impl.ControllerRequestTrigger;
-import com.mevenk.typicalwebapp.trigger.impl.FileAcionsLoggingTrigger;
-import com.mevenk.typicalwebapp.trigger.impl.TimelyDatePoolingTrigger;
 
 /**
  * @author Venkatesh
@@ -37,7 +30,6 @@ import com.mevenk.typicalwebapp.trigger.impl.TimelyDatePoolingTrigger;
 @PropertySource(PROPERTY_SOURCE_TYPICAL_WEB_APP_PROPERTIES_FILE_SOURCE)
 @ComponentScan(basePackages = TYPICAL_WEB_APP_BASE_PACKAGES)
 @EnableWebMvc
-@EnableAspectJAutoProxy
 @Configuration
 public class TypicalWebAppBeanConfiguration {
 
@@ -55,27 +47,5 @@ public class TypicalWebAppBeanConfiguration {
 	public TypicalWebAppService typicalWebAppService() {
 		return new TypicalWebAppServiceImpl(TYPICAL_WEB_APP_SERVICE);
 	}
-
-	// ***********************************TRIGGERS****************************************
-
-	@Bean(name = "fileActionsLoggingTrigger")
-	@Scope(scopeName = SCOPE_PROTOTYPE)
-	public FileActionsTrigger fileActionsLoggingTrigger() {
-		return new FileAcionsLoggingTrigger();
-	}
-
-	@Bean(name = "controllerRequestTrigger")
-	@Scope(scopeName = SCOPE_PROTOTYPE)
-	public ControllerTrigger controllerRequestTrigger() {
-		return new ControllerRequestTrigger();
-	}
-
-	@Bean(name = "timelyDatePoolingTrigger")
-	@Scope(scopeName = SCOPE_PROTOTYPE)
-	public PoolingTrigger timelyDatePoolingTrigger() {
-		return new TimelyDatePoolingTrigger();
-	}
-
-	// ***********************************TRIGGERS-END************************************
 
 }

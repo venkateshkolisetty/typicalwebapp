@@ -23,9 +23,9 @@ import org.aspectj.lang.annotation.Pointcut;
  *
  */
 @Aspect
-public class PoolingTrigger extends TypicalWebAppBaseTrigger {
+public class PollingTrigger extends TypicalWebAppBaseTrigger {
 
-	private static final Logger log = LogManager.getLogger(PoolingTrigger.class);
+	private static final Logger log = LogManager.getLogger(PollingTrigger.class);
 
 	private static final String POINT_CUT_METHODS_WITH_SCHEDULED_ANNOTATION = "methodsWithScheduledAnnotation()";
 
@@ -43,7 +43,7 @@ public class PoolingTrigger extends TypicalWebAppBaseTrigger {
 	// *******************************methodsWithScheduledAnnotation*******************************
 
 	@Around(POINT_CUT_METHODS_WITH_SCHEDULED_ANNOTATION)
-	protected void logAroundPoolingRequest(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+	protected void logAroundPollingRequest(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		generateCorrelationId(proceedingJoinPoint);
 		generateProceedingJoinPointDetail(proceedingJoinPoint);
 		log.log(TRIGGER, "Trigger Around {}", proceedingJoinPointFormatted);
@@ -51,20 +51,22 @@ public class PoolingTrigger extends TypicalWebAppBaseTrigger {
 	}
 
 	@Before(POINT_CUT_METHODS_WITH_SCHEDULED_ANNOTATION)
-	protected void logPrePoolingRequest(JoinPoint joinPoint) {
+	protected void logPrePollingRequest(JoinPoint joinPoint) {
 		generateJointPointDetail(joinPoint);
 	}
 
 	@After(POINT_CUT_METHODS_WITH_SCHEDULED_ANNOTATION)
-	protected void logPostPoolingRequest(JoinPoint joinPoint) {
+	protected void logPostPollingRequest(JoinPoint joinPoint) {
+		generateJointPointDetail(joinPoint);
 	}
 
 	@AfterReturning(pointcut = POINT_CUT_METHODS_WITH_SCHEDULED_ANNOTATION)
 	protected void logReturnPageFileActionsPage(JoinPoint joinPoint) {
+		generateJointPointDetail(joinPoint);
 	}
 
 	@AfterThrowing(pointcut = POINT_CUT_METHODS_WITH_SCHEDULED_ANNOTATION, throwing = "exception")
-	protected void logIfExceptionPoolingRequest(JoinPoint joinPoint, Exception exception) {
+	protected void logIfExceptionPollingRequest(JoinPoint joinPoint, Exception exception) {
 		log.log(TRIGGER, "Trigger Exception " + joinPointFormatted + exception.getMessage());
 		log.error("Trigger Exception " + joinPointFormatted + exceptionStactTraceAsString(exception));
 	}
