@@ -3,8 +3,8 @@
  */
 package com.mevenk.typicalwebapp.controller;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_BEAN_REST_CONTROLLER_REQUEST_MAPPING;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.addParametersToCorrelationId;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;

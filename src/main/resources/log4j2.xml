@@ -37,10 +37,10 @@
 		</Property>
 		<Property name="configLogFileName">TypicalWebAppConfig.log</Property>
 
-		<!-- <Property name="typicalWebappLogPatternLayout"><![CDATA[%d{MMM dd, 
-			yyyy HH:mm:ss.SSS} #TypicalWebApp# [%X{TypicalWebAppCorrelationId}] - [%t] 
+		<!-- <Property name="typicalWebappLogPatternLayout"><![CDATA[%d{MMM dd,
+			yyyy HH:mm:ss.SSS} #TypicalWebApp# [%X{TypicalWebAppCorrelationId}] - [%t]
 			%-5level %logger{36} - %msg%n]]></Property> -->
-		<Property name="typicalWebappLogPatternLayout"><![CDATA[%d{MMMdd,yyyy-HH:mm:ss.SSS}#TypicalWebApp#[%X{TypicalWebAppCorrelationId}][%t]|%-5level|%C{1}#%M-%msg%n]]></Property>
+		<Property name="typicalWebappLogPatternLayout"><![CDATA[%d{MMM dd,yyyy-HH:mm:ss.SSS}#TypicalWebApp#[%X{TypicalWebAppCorrelationId}][%t]|%-5level|%C{1}#%M-%msg%n]]></Property>
 
 	</Properties>
 

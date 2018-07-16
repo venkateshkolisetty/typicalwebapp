@@ -3,13 +3,13 @@
  */
 package com.mevenk.typicalwebapp.config;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.CONFIG;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppRESTWSServlet.TYPICALWEBAPP_REST_WEB_SERVICE_SERVLET_CONFIG_PROPERTY_PACKAGES_PARAM_NAME;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppRESTWSServlet.TYPICALWEBAPP_REST_WEB_SERVICE_SERVLET_CONFIG_PROPERTY_PACKAGES_PARAM_VALUE;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppRESTWSServlet.TYPICALWEBAPP_REST_WEB_SERVICE_SERVLET_DISPLAY_NAME;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppRESTWSServlet.TYPICALWEBAPP_REST_WEB_SERVICE_SERVLET_NAME;
 import static com.mevenk.typicalwebapp.config.TypicalWebAppRESTWSServlet.TYPICALWEBAPP_REST_WEB_SERVICE_SERVLET_URL_PATTERN;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_REST_WEB_SERVICE_REQUEST_MAPPING;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.CONFIG;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.ASTERISK;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SLASH;
 

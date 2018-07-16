@@ -3,7 +3,7 @@
  */
 package com.mevenk.typicalwebapp.trigger;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.resetCorrelationId;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.resetCorrelationId;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.HYPHEN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.objectArrayAsString;
 

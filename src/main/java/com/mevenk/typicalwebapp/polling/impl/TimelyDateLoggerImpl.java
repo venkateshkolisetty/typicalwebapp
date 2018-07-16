@@ -3,7 +3,7 @@
  */
 package com.mevenk.typicalwebapp.polling.impl;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.POLLING;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.POLLING;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppExpressions.DATE_POLLING_CRON_EXPRESSION;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.currentDateForTimelyDateLogger;
 

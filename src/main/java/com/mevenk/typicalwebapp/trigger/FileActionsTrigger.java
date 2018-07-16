@@ -1,13 +1,14 @@
 /**
- * 
+ *
  */
 package com.mevenk.typicalwebapp.trigger;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.TRIGGER;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.TRIGGER;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.exceptionStactTraceAsString;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Order;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -22,6 +23,7 @@ import org.aspectj.lang.annotation.Pointcut;
  * @author Venkatesh
  *
  */
+@Order(4)
 @Aspect
 public class FileActionsTrigger extends TypicalWebAppBaseTrigger {
 

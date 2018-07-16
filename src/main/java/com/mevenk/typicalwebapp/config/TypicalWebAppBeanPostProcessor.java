@@ -3,7 +3,7 @@
  */
 package com.mevenk.typicalwebapp.config;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.CONFIG;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.CONFIG;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

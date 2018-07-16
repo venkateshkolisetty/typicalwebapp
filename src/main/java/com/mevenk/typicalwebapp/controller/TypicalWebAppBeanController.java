@@ -8,10 +8,10 @@ import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanI
 import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService.AVAILABLE;
 import static com.mevenk.typicalwebapp.bean.TypicalWebAppBean.TypicalWebAppBeanInvocationService.NOT_AVAILABLE;
 import static com.mevenk.typicalwebapp.bean.TypicalWebAppErrorBean.TypicalWebAppErrorBeanError.BEAN_NOT_AVAILABLE;
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.PARAM_TYPICAL_WEB_APP_BEAN_ID;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_BEAN_CONTROLLER_REQUEST_MAPPING;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerResponseConfig.headerTypicalWebAppBean;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.addParametersToCorrelationId;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;

@@ -3,8 +3,6 @@
  */
 package com.mevenk.typicalwebapp.controller;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.THREAD_CONTEXT_KEY;
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.PARAM_SLEEP_TIME_IN_SECONDS;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.PARAM_TEST_REQUEST_RESPONSE_PARAMETER_1;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_REQUEST_MAPPING_SLEEP_REQUEST;
@@ -12,6 +10,8 @@ import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppController
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_REQUEST_MAPPING_WELCOME;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerResponseConfig.TYPICAL_WEB_APP_RESPONSE_VIEW_WELCOME;
 import static com.mevenk.typicalwebapp.controller.response.ResponseEntityString.responseEntityStringError;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.THREAD_CONTEXT_KEY;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.ASTERISK;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SLASH;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN;

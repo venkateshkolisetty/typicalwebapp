@@ -1,14 +1,15 @@
 /**
- * 
+ *
  */
 package com.mevenk.typicalwebapp.trigger;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.TRIGGER;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.TRIGGER;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.exceptionStactTraceAsString;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppUtil.objectArrayAsString;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Order;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Venkatesh
  *
  */
+@Order(2)
 @Aspect
 public class ControllerTrigger extends TypicalWebAppBaseTrigger {
 

@@ -3,7 +3,7 @@
  */
 package com.mevenk.typicalwebapp.config;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.CONFIG;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.CONFIG;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 

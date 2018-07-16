@@ -3,7 +3,7 @@
  */
 package com.mevenk.typicalwebapp.trigger.impl;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.TRIGGER;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.TRIGGER;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

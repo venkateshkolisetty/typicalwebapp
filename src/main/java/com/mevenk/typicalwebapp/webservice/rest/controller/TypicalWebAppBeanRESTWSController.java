@@ -3,9 +3,9 @@
  */
 package com.mevenk.typicalwebapp.webservice.rest.controller;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.PARAM_TYPICAL_WEB_APP_BEAN_ID;
 import static com.mevenk.typicalwebapp.controller.config.TypicalWebAppControllerRequestConfig.TYPICAL_WEB_APP_BEAN_REST_WEB_SERVICE_REQUEST_PATH;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.BRACES_CLOSE;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.BRACES_OPEN;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SLASH;

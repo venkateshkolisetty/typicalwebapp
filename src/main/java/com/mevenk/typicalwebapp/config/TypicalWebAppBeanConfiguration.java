@@ -1,21 +1,16 @@
 /**
- * 
+ *
  */
 package com.mevenk.typicalwebapp.config;
 
 import static com.mevenk.typicalwebapp.config.TypicalWebAppRootConfiguration.TYPICAL_WEB_APP_PROPERTIES_LOADER;
-import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.PROPERTY_SOURCE_TYPICAL_WEB_APP_PROPERTIES_FILE_SOURCE;
-import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.TYPICAL_WEB_APP_BASE_PACKAGES;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.mevenk.typicalwebapp.service.TypicalWebAppBeanService;
 import com.mevenk.typicalwebapp.service.TypicalWebAppService;
@@ -27,9 +22,6 @@ import com.mevenk.typicalwebapp.service.impl.TypicalWebAppServiceImpl;
  *
  */
 @Import(TypicalWebAppRootConfiguration.class)
-@PropertySource(PROPERTY_SOURCE_TYPICAL_WEB_APP_PROPERTIES_FILE_SOURCE)
-@ComponentScan(basePackages = TYPICAL_WEB_APP_BASE_PACKAGES)
-@EnableWebMvc
 @Configuration
 public class TypicalWebAppBeanConfiguration {
 

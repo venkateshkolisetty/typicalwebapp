@@ -3,7 +3,7 @@
  */
 package com.mevenk.typicalwebapp.controller;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.addParametersToCorrelationId;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.addParametersToCorrelationId;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.SPACE_AROUND_DOUBLE_COLUN;
 
 import java.io.BufferedOutputStream;

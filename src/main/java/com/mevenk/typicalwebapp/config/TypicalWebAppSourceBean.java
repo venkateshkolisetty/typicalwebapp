@@ -3,7 +3,7 @@
  */
 package com.mevenk.typicalwebapp.config;
 
-import static com.mevenk.typicalwebapp.config.TypicalWebAppLogger.CONFIG;
+import static com.mevenk.typicalwebapp.logger.TypicalWebAppLogger.CONFIG;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.AT_SIGH;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.BRACES_CLOSE;
 import static com.mevenk.typicalwebapp.util.TypicalWebAppConstants.BRACES_OPEN;

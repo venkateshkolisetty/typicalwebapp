@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mevenk.typicalwebapp.config;
 
@@ -21,6 +21,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+import com.mevenk.typicalwebapp.logger.TypicalWebAppLogger;
 import com.mevenk.typicalwebapp.service.ClientUtilService;
 import com.mevenk.typicalwebapp.service.impl.ClientUtilServiceimpl;
 import com.mevenk.typicalwebapp.util.TypicalWebAppUtil;
